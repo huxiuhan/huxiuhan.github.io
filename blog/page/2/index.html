@@ -1,0 +1,1135 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Hu Xiuhan</title>
+  <meta name="author" content="HXH">
+
+  
+  <meta name="description" content="一个encoder函数负责压缩，decoder负责解压。 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://huxiuhan.github.io/blog/page/2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Hu Xiuhan" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/jquery.transform2d.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=Enriqueta:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Anaheim:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Inconsolata:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Share+Tech:regular,bold" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Share+Tech:regular,bold" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23758695-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1>
+    <a href="/">
+      SQRH
+    </a>
+  </h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<!--
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:huxiuhan.github.io" />
+    <input class="search" type="text" name="q" results="0"/>
+  </fieldset>
+</form>
+  
+-->
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about/">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/04/16/lz78/">Lz78：压缩文件实现源码（c++）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-16T00:00:00+08:00" pubdate data-updated="true">Apr 16<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/04/16/lz78/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一个encoder函数负责压缩，decoder负责解压。</p>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;rle.h&quot;</span>
+</span><span class='line'><span class="cp">#define NOZIPTOT 10</span>
+</span><span class='line'><span class="c1">//不压缩列表</span>
+</span><span class='line'><span class="k">const</span> <span class="n">_TCHAR</span> <span class="n">noziplist</span><span class="p">[</span><span class="n">NOZIPTOT</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s">L&quot;.zip&quot;</span><span class="p">,</span><span class="s">L&quot;.rar&quot;</span><span class="p">,</span><span class="s">L&quot;.jpg&quot;</span><span class="p">,</span><span class="s">L&quot;.rzp&quot;</span><span class="p">,</span><span class="s">L&quot;.pdf&quot;</span><span class="p">,</span><span class="s">L&quot;.chm&quot;</span><span class="p">,</span><span class="s">L&quot;mp3&quot;</span><span class="p">,</span><span class="s">L&quot;.mp4&quot;</span><span class="p">,</span><span class="s">L&quot;.ppt&quot;</span><span class="p">,</span><span class="s">L&quot;.mov&quot;</span><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">SWord</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>	<span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="n">WORDLEN</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>	<span class="kt">short</span> <span class="n">l</span><span class="p">;</span>
+</span><span class='line'>	<span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="n">SWord</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">w2</span><span class="p">)</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="k">if</span> <span class="p">(</span><span class="n">l</span><span class="o">!=</span><span class="n">w2</span><span class="p">.</span><span class="n">l</span><span class="p">)</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">l</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="n">w2</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>	<span class="n">SWord</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">SWord</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">w</span><span class="p">)</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="n">l</span> <span class="o">=</span> <span class="n">w</span><span class="p">.</span><span class="n">l</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">l</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>		<span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>	<span class="n">SWord</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="kt">char</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">c</span><span class="p">)</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="n">SWord</span> <span class="n">tw</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">tw</span><span class="p">.</span><span class="n">l</span><span class="o">++</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">tw</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="n">tw</span><span class="p">.</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">return</span> <span class="n">tw</span><span class="p">;</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="nl">SWordCode:</span><span class="k">public</span> <span class="n">SWord</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>	<span class="n">ushort</span> <span class="n">co</span><span class="p">;</span>
+</span><span class='line'>	<span class="n">SWordCode</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">SWord</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">w</span><span class="p">)</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="n">l</span> <span class="o">=</span> <span class="n">w</span><span class="p">.</span><span class="n">l</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">co</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">l</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>		<span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>	<span class="n">SWordCode</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">SWordCode</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">w</span><span class="p">)</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="n">l</span> <span class="o">=</span> <span class="n">w</span><span class="p">.</span><span class="n">l</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">co</span> <span class="o">=</span> <span class="n">w</span><span class="p">.</span><span class="n">co</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">l</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>		<span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="c1">//字典</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">CDic</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>	<span class="n">SWord</span> <span class="n">d</span><span class="p">[</span><span class="n">DICSIZE</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>	<span class="n">ushort</span> <span class="n">h</span><span class="p">[</span><span class="n">HASHSIZE</span><span class="p">];</span>
+</span><span class='line'>	<span class="kt">int</span> <span class="n">t</span><span class="p">;</span>
+</span><span class='line'>	<span class="n">CDic</span><span class="p">()</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="n">memset</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span> <span class="n">d</span><span class="p">);</span>
+</span><span class='line'>		<span class="n">memset</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span> <span class="n">h</span><span class="p">);</span>
+</span><span class='line'>		<span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">SWord</span> <span class="n">tw</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">256</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>			<span class="n">tw</span><span class="p">.</span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">tw</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+</span><span class='line'>			<span class="n">Insert</span><span class="p">(</span><span class="n">tw</span><span class="p">);</span>
+</span><span class='line'>		<span class="p">}</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>	<span class="kt">void</span> <span class="n">Refresh</span><span class="p">()</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="n">memset</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span> <span class="n">d</span><span class="p">);</span>
+</span><span class='line'>		<span class="n">memset</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span> <span class="n">h</span><span class="p">);</span>
+</span><span class='line'>		<span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">SWord</span> <span class="n">tw</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">256</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>			<span class="n">tw</span><span class="p">.</span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">tw</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+</span><span class='line'>			<span class="n">Insert</span><span class="p">(</span><span class="n">tw</span><span class="p">);</span>
+</span><span class='line'>		<span class="p">}</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>	<span class="kt">int</span> <span class="n">GetHash</span><span class="p">(</span><span class="n">SWord</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">w</span><span class="p">)</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">hash</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>		<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">th</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">w</span><span class="p">.</span><span class="n">l</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>				<span class="k">if</span> <span class="p">((</span><span class="n">i</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>				<span class="p">{</span>
+</span><span class='line'>					<span class="n">hash</span> <span class="o">^=</span> <span class="p">((</span><span class="n">hash</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">^</span> <span class="n">w</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="p">(</span><span class="n">hash</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">3</span><span class="p">));</span>
+</span><span class='line'>				<span class="p">}</span>   <span class="k">else</span>
+</span><span class='line'>				<span class="p">{</span>
+</span><span class='line'>					<span class="n">hash</span> <span class="o">^=</span> <span class="p">(</span><span class="o">~</span><span class="p">((</span><span class="n">hash</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">11</span><span class="p">)</span> <span class="o">^</span> <span class="n">w</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="p">(</span><span class="n">hash</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">5</span><span class="p">)));</span>
+</span><span class='line'>				<span class="p">}</span>
+</span><span class='line'>		<span class="n">th</span> <span class="o">=</span> <span class="p">((</span><span class="n">hash</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="mh">0x7FFFFFFF</span><span class="p">)</span> <span class="o">+</span> <span class="n">HASHSIZE</span><span class="p">)</span> <span class="o">%</span> <span class="n">HASHSIZE</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">while</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">th</span><span class="p">]</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">!</span><span class="p">(</span><span class="n">w</span><span class="o">==</span><span class="n">d</span><span class="p">[</span><span class="n">h</span><span class="p">[</span><span class="n">th</span><span class="p">]]))</span>
+</span><span class='line'>		<span class="p">{</span>
+</span><span class='line'>			<span class="n">th</span><span class="o">++</span><span class="p">;</span>
+</span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="n">th</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span><span class="n">HASHSIZE</span><span class="p">)</span> <span class="n">th</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>		<span class="p">}</span>
+</span><span class='line'>		<span class="k">return</span> <span class="n">th</span><span class="p">;</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>	<span class="n">ushort</span> <span class="n">GetCode</span><span class="p">(</span><span class="n">SWord</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">w</span><span class="p">)</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="k">return</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">GetHash</span><span class="p">(</span><span class="n">w</span><span class="p">)]);</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>	<span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="n">SWord</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">w</span><span class="p">)</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="n">t</span><span class="o">++</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">d</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">h</span><span class="p">[</span><span class="n">GetHash</span><span class="p">(</span><span class="n">w</span><span class="p">)]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="c1">//检查是否压缩</span>
+</span><span class='line'><span class="kt">bool</span> <span class="n">nozip</span><span class="p">(</span><span class="n">_TCHAR</span><span class="o">*</span> <span class="n">fn</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">NOZIPTOT</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>		<span class="k">if</span> <span class="p">(</span><span class="n">wcsstr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="n">noziplist</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>	<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">char</span> <span class="n">tc</span><span class="p">;</span>
+</span><span class='line'><span class="n">CDic</span> <span class="n">dic</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//压缩器</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">encoder</span><span class="p">(</span><span class="n">fstream</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">fzip</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">fn</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'>	<span class="n">time_t</span> <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>	<span class="n">wcout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">fn</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="s">L&quot;:&quot;</span><span class="p">;</span>
+</span><span class='line'>	<span class="n">fstream</span> <span class="n">fin</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="n">ios</span><span class="o">::</span><span class="n">in</span><span class="o">|</span><span class="n">ios</span><span class="o">::</span><span class="n">binary</span><span class="p">);</span>
+</span><span class='line'>	<span class="n">WIN32_FIND_DATA</span> <span class="n">ffd</span><span class="p">;</span>
+</span><span class='line'>	<span class="n">FindFirstFile</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">ffd</span><span class="p">);</span>
+</span><span class='line'>	<span class="kt">long</span> <span class="kt">long</span> <span class="n">fsize</span> <span class="o">=</span> <span class="n">ffd</span><span class="p">.</span><span class="n">nFileSizeLow</span><span class="p">;</span>
+</span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="n">nozip</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span><span class="c1">//不压缩时直接复制</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="n">zwrite</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">fsize</span><span class="p">);</span>
+</span><span class='line'>		<span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">while</span> <span class="p">(</span><span class="n">zread</span><span class="p">(</span><span class="n">fin</span><span class="p">,</span><span class="n">c</span><span class="p">))</span> <span class="n">zwrite</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">c</span><span class="p">);</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>	<span class="k">else</span><span class="c1">//否则进行LZ78算法的压缩</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="n">zwrite</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">fsize</span><span class="p">);</span>
+</span><span class='line'>		<span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">SWordCode</span> <span class="n">w</span><span class="p">,</span><span class="n">wc</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">dic</span><span class="p">.</span><span class="n">Refresh</span><span class="p">();</span>
+</span><span class='line'>		<span class="n">w</span><span class="p">.</span><span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">w</span><span class="p">.</span><span class="n">co</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">while</span> <span class="p">(</span><span class="n">fsize</span><span class="o">--</span><span class="p">)</span>
+</span><span class='line'>		<span class="p">{</span>
+</span><span class='line'>			<span class="n">zread</span><span class="p">(</span><span class="n">fin</span><span class="p">,</span><span class="n">c</span><span class="p">);</span>
+</span><span class='line'>			<span class="n">wc</span> <span class="o">=</span> <span class="n">w</span> <span class="o">+</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>			<span class="n">wc</span><span class="p">.</span><span class="n">co</span> <span class="o">=</span> <span class="n">dic</span><span class="p">.</span><span class="n">GetCode</span><span class="p">(</span><span class="n">wc</span><span class="p">);</span>
+</span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="n">wc</span><span class="p">.</span><span class="n">co</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">wc</span><span class="p">.</span><span class="n">l</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span><span class="n">WORDLEN</span><span class="p">)</span>
+</span><span class='line'>			<span class="p">{</span>
+</span><span class='line'>				<span class="n">w</span> <span class="o">=</span> <span class="n">wc</span><span class="p">;</span>
+</span><span class='line'>			<span class="p">}</span>
+</span><span class='line'>			<span class="k">else</span>
+</span><span class='line'>			<span class="p">{</span>
+</span><span class='line'>				<span class="n">zwrite</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">w</span><span class="p">.</span><span class="n">co</span><span class="p">);</span>
+</span><span class='line'>				<span class="n">zwrite</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">c</span><span class="p">);</span>
+</span><span class='line'>				<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">wc</span><span class="p">.</span><span class="n">co</span><span class="p">)</span> <span class="n">dic</span><span class="p">.</span><span class="n">Insert</span><span class="p">(</span><span class="n">wc</span><span class="p">);</span>
+</span><span class='line'>				<span class="k">if</span> <span class="p">(</span><span class="n">dic</span><span class="p">.</span><span class="n">t</span><span class="o">==</span><span class="n">DICSIZE</span><span class="p">)</span> <span class="n">dic</span><span class="p">.</span><span class="n">Refresh</span><span class="p">();</span>
+</span><span class='line'>				<span class="n">w</span><span class="p">.</span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>				<span class="n">w</span><span class="p">.</span><span class="n">co</span> <span class="o">=</span> <span class="p">(</span><span class="n">uchar</span><span class="p">)</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>				<span class="n">w</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>			<span class="p">}</span>
+</span><span class='line'>		<span class="p">}</span>
+</span><span class='line'>		<span class="k">if</span> <span class="p">(</span><span class="n">w</span><span class="p">.</span><span class="n">l</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>			<span class="n">zwrite</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">w</span><span class="p">.</span><span class="n">co</span><span class="p">);</span>
+</span><span class='line'>			<span class="n">zwrite</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">c</span><span class="p">);</span>
+</span><span class='line'>		<span class="p">}</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>	<span class="n">fin</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+</span><span class='line'>	<span class="n">wcout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="s">L&quot;Done in &quot;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">-</span><span class="n">now</span><span class="p">)</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="s">L&quot; sec(s).&quot;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span><span class="c1">//解压器</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">decoder</span><span class="p">(</span><span class="n">fstream</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">fzip</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">fn</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'>	<span class="kt">long</span> <span class="kt">long</span> <span class="n">fsize</span><span class="p">;</span>
+</span><span class='line'>	<span class="n">time_t</span> <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>	<span class="n">wcout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">fn</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="s">L&quot;:&quot;</span><span class="p">;</span>
+</span><span class='line'>	<span class="n">fstream</span> <span class="n">fout</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="n">ios</span><span class="o">::</span><span class="n">out</span><span class="o">|</span><span class="n">ios</span><span class="o">::</span><span class="n">binary</span><span class="p">);</span>
+</span><span class='line'>	<span class="n">zread</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">fsize</span><span class="p">);</span>
+</span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="n">nozip</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">while</span> <span class="p">(</span><span class="n">fsize</span><span class="o">--</span><span class="p">)</span>
+</span><span class='line'>		<span class="p">{</span>
+</span><span class='line'>			<span class="n">zread</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">c</span><span class="p">);</span>
+</span><span class='line'>			<span class="n">zwrite</span><span class="p">(</span><span class="n">fout</span><span class="p">,</span><span class="n">c</span><span class="p">);</span>
+</span><span class='line'>		<span class="p">}</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>	<span class="k">else</span>
+</span><span class='line'>	<span class="p">{</span>
+</span><span class='line'>		<span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">ushort</span> <span class="n">co</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">SWordCode</span> <span class="n">w</span><span class="p">,</span><span class="n">wc</span><span class="p">;</span>
+</span><span class='line'>		<span class="n">dic</span><span class="p">.</span><span class="n">Refresh</span><span class="p">();</span>
+</span><span class='line'>		<span class="n">w</span><span class="p">.</span><span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">w</span><span class="p">.</span><span class="n">co</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>		<span class="kt">int</span> <span class="n">ct</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>		<span class="k">while</span> <span class="p">(</span><span class="n">fsize</span><span class="p">)</span>
+</span><span class='line'>		<span class="p">{</span>
+</span><span class='line'>			<span class="n">zread</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">co</span><span class="p">);</span>
+</span><span class='line'>			<span class="n">zread</span><span class="p">(</span><span class="n">fzip</span><span class="p">,</span><span class="n">c</span><span class="p">);</span>
+</span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="n">dic</span><span class="p">.</span><span class="n">t</span><span class="o">==</span><span class="n">DICSIZE</span><span class="p">)</span> <span class="n">dic</span><span class="p">.</span><span class="n">Refresh</span><span class="p">();</span>
+</span><span class='line'>			<span class="n">w</span> <span class="o">=</span> <span class="n">dic</span><span class="p">.</span><span class="n">d</span><span class="p">[</span><span class="n">co</span><span class="p">];</span>
+</span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="n">w</span><span class="p">.</span><span class="n">l</span><span class="p">)</span>
+</span><span class='line'>			<span class="p">{</span>
+</span><span class='line'>				<span class="n">fsize</span> <span class="o">-=</span> <span class="n">w</span><span class="p">.</span><span class="n">l</span><span class="p">;</span> <span class="n">ct</span> <span class="o">+=</span> <span class="n">w</span><span class="p">.</span><span class="n">l</span><span class="p">;</span>
+</span><span class='line'>				<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">w</span><span class="p">.</span><span class="n">l</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>					<span class="n">zwrite</span><span class="p">(</span><span class="n">fout</span><span class="p">,</span><span class="n">w</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span><span class='line'>				<span class="n">wc</span> <span class="o">=</span> <span class="n">w</span> <span class="o">+</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>				<span class="n">wc</span><span class="p">.</span><span class="n">co</span> <span class="o">=</span> <span class="n">dic</span><span class="p">.</span><span class="n">GetCode</span><span class="p">(</span><span class="n">wc</span><span class="p">);</span>
+</span><span class='line'>				<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">wc</span><span class="p">.</span><span class="n">co</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">wc</span><span class="p">.</span><span class="n">l</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span><span class="n">WORDLEN</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="n">dic</span><span class="p">.</span><span class="n">Insert</span><span class="p">(</span><span class="n">wc</span><span class="p">);</span>
+</span><span class='line'>			<span class="p">}</span>
+</span><span class='line'>		<span class="p">}</span>
+</span><span class='line'>	<span class="p">}</span>
+</span><span class='line'>	<span class="n">fout</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+</span><span class='line'>	<span class="n">wcout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="s">L&quot;Done in &quot;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">-</span><span class="n">now</span><span class="p">)</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="s">L&quot; sec(s).&quot;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/04/15/sth-you-may-not-know-about-me/">你不知道的我</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-15T00:00:00+08:00" pubdate data-updated="true">Apr 15<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/04/15/sth-you-may-not-know-about-me/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><span style="color: #333333; font-family: Tahoma, Verdana, STHeiTi, simsun, sans-serif; line-height: 21px;"> </span></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.8em; margin-left: 0px; padding: 0px;">在大学这个环境，人真的很难互相了解，既然不能寄希望于别人主动了解你，只好自己出来发言。如果你希望了解我，这篇显摆文大概可以帮到你。</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.8em; margin-left: 0px; padding: 0px;">&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;</p>
+<ol style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 30px; list-style-position: outside; list-style-type: decimal; list-style-image: initial; margin: 0px;">
+<li style="padding: 0px; margin: 0px;">我参与过信息学竞赛，但不完全是凭借信息学保送的。跟大多数同学一样，我是因为综合成绩而进入北大的。我甚至有点厌恶被认为是竞赛牛人，第一是因为不配，第二与一些经历有关。</li>
+<li style="padding: 0px; margin: 0px;">我对Geek和Otaku文化十分感兴趣，也了解一些知识（相对于大多数人），但遇上Geek或者Otaku的严格定义，只能说我是一个伪极客和伪宅&mdash;&mdash;我并没有用理论解释一切的野心，也没有对动漫的超常狂热。</li>
+<li style="padding: 0px; margin: 0px;">虽然我喜欢参与讨论，但我倾听与观察他人的时间可能比一般人要多，有时候表现为东张西望，一部分情况下这让他人感到不舒服。</li>
+<li style="padding: 0px; margin: 0px;">认为艺术形式没有高低之分，然而我最能欣赏以文字为载体的艺术。文字可以给人随时停顿与思考，并留下自己的感悟与感动，限定死时间线的艺术&mdash;&mdash;电影、电视剧、动画，只有当它们非常优秀（或者说很适合我的思维节奏），我才能够完全的受其触动。</li>
+<li style="padding: 0px; margin: 0px;">初中到高中平均成绩最好的一直是化学，最有兴趣的是计算机。</li>
+<li style="padding: 0px; margin: 0px;">喜欢音乐，喜欢歌唱，学习过歌剧并参加过比赛。无论男女歌手的歌曲都唱，面广而无精，是KTV最佳伴唱对象。</li>
+<li style="padding: 0px; margin: 0px;">喜静。然羽毛球、游泳可与人一较高下，乒乓球、篮球、排球、棒球、旱冰、国际象棋可以偶尔娱乐一下，网球、台球初学但挺有兴趣。</li>
+<li style="padding: 0px; margin: 0px;">喜欢历史与地理。尤其喜欢世界史与大航海时代。可以标出14世纪所有著名港口的位置。喜欢希腊神话。对北欧与冰岛有特殊的兴趣。</li>
+<li style="padding: 0px; margin: 0px;">喜欢大多数文学，小说尤甚。阅读小说速度很快（最快纪录一天3MB&mdash;&mdash;一个上午看完一本哈利波特）。除了对古典仙侠与硬科幻情有独钟外，对其他小说也有兴趣一读，甚至包括言情小说，当然，耽美除外。虽然不算热衷，但偶尔也可与人以诗词相和来作乐。</li>
+<li style="padding: 0px; margin: 0px;">对互联网与及时获取信息有偏执倾向。Always Connected. 小学三年级开始学习Dreamweaver和Flash，初中学习PHP，高中搞了一阵信息学竞赛，现在学一学Django架构。但到现在仍然一事无成。也不气馁。</li>
+<li style="padding: 0px; margin: 0px;">内向。虽然中学开始一直转向但积重难返。跟女生单独接触仍然十分紧张，尤其是稍有好感的，不知道该怎么说话。生人面前是勿近型。</li>
+<li style="padding: 0px; margin: 0px;">喜欢旅游。迄今为止认真游玩过的景点大约有40-50个。喜欢自然风景与寻幽探秘。</li>
+<li style="padding: 0px; margin: 0px;">不喜与人争斗，但偶尔出言讽刺。认为真理无需强辞，侵略性从根本上来说是丑陋的。</li>
+<li style="padding: 0px; margin: 0px;">两年来最大的愿望是坚强的活着，有爱我和我爱的人，学习尽可能广博的知识。</li>
+<li style="padding: 0px; margin: 0px;">其次是保证独立思维与实证精神，对一切馈赠保持感恩之心，做一个对大多数人来说还算有趣的人。</li>
+<li style="padding: 0px; margin: 0px;">反对唯理主义，但难免有保证语言逻辑严密的强迫症，比如说这篇文章的标题与其中一些冗长的句子。</li>
+</ol>
+<p>&nbsp;</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/04/08/mactype%3Afont-rendering-in-windows/">Mactype：windows下的字体渲染软件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-08T00:00:00+08:00" pubdate data-updated="true">Apr 8<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/04/08/mactype%3Afont-rendering-in-windows/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>
+	用过ubuntu或者mac的童鞋们回到windows&mdash;&mdash;即使是已经大有改观的win7&mdash;&mdash;下面最大的感受之一，就是文字显示实在是很难看，仿佛满是锯齿。</p>
+<p>
+	起初我认为这是由于windows本身的字体不给力造成的，这确实是原因之一，但显然不能用于解释所有问题，即使你把Adobe Kai或者文泉驿放上windows，你也总觉得它变丑了。</p>
+<p>
+	其实这还是由于微软从来就没有把cleartype这个工具做到最精致有关的。于是为了加强效果，我们可以使用MacType这款软件。</p>
+<p>
+	MacType的最新版可以在<a href="http://mactype.themex.net/download/MacTypeInstaller_2010_1231_0.exe">这儿下载</a>。</p>
+<p>
+	用户可以使用MacType自己定制一种配置方案，也可以在用户向导中直接使用预定的方案，完全可以达到比Mac更好的字体效果。</p>
+<p>
+	下面则是MacType处理后的文字的显示效果，无论是界面还是文本，都是这样的字体看上去爽多了不是么？</p>
+<p>
+	&nbsp;</p>
+<div class="imgbox">
+	<img alt="" src="/images/mactype.png" style="width: 415px; height: 180px; " /></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/03/09/breaking-news%3Ahtm5-css3-is-turing-complete/">Breaking-news：html5+css3是图灵完备的</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-09T00:00:00+08:00" pubdate data-updated="true">Mar 9<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/03/09/breaking-news%3Ahtm5-css3-is-turing-complete/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">	<p>
+		昨天还在人人上发了一条状态说为什么HTML不做成图灵完备编程语言，今天就看见了这样一条<a href="http://lemire.me/blog/archives/2011/03/08/breaking-news-htmlcss-is-turing-complete/" style="margin: 0px; padding: 0px; color: rgb(0, 94, 172); cursor: pointer; text-decoration: none;" target="_blank">新闻</a>：</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		A programming language is&nbsp;<a href="http://en.wikipedia.org/wiki/Turing_complete" style="margin: 0px; padding: 0px; color: rgb(0, 94, 172); cursor: pointer; text-decoration: none;">Turing complete</a>&nbsp;if it equivalent to a Turing machine. In practice, it means that any algorithm can be implemented. Most programming languages are Turing complete, including SQL, ECMAScript, Java, C, and so on. For years, I have been telling my students that CSS is not Turing complete.</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		如果一个编程语言等价于一个图灵机，我们称它是图灵完备的。事实上，这表明任何算法都可以使用这种语言实现。大部分的编程语言都是图灵完备的，包括SQL，ECMAScript，Java，C等等。多年来，我一直告诉我的学生CSS并不是图灵完备的。</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		Maybe I need to change my story. Apparently,&nbsp;<a href="http://lambda-the-ultimate.org/node/4222" style="margin: 0px; padding: 0px; color: rgb(0, 94, 172); cursor: pointer; text-decoration: none;">HTML5 + CSS3</a>&nbsp;is now also Turing complete because it can be used to program a&nbsp;<a href="http://en.wikipedia.org/wiki/Rule_110" style="margin: 0px; padding: 0px; color: rgb(0, 94, 172); cursor: pointer; text-decoration: none;">Rule 110 automaton</a>. I have not yet had time to investigate further. Does it rely on specific features of CSS3 and HTML5? Were previous versions of HTML+CSS also Turing complete?</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		但我要改变我的说法了。显然，HTML5+CSS3现在已经是图灵完备的了，因为它已经被用于编程一个Rule 110自动机。这是否依赖了CSS3与HTML5的特殊性质还不太清楚。（底下网友评论给出的猜测答案是CSS3引进的某一个新特性<a href="http://www.w3.org/TR/css3-selectors/#nth-of-type-pseudo" rel="nofollow" style="margin: 0px; padding: 0px; color: rgb(0, 94, 172); cursor: pointer; text-decoration: none;">#nth-of-type-pseudo</a>）</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		On Wikipedia, there is a nice story about how when Matthew Cook proved that Rule 110 was Turing complete, Wolfram Research, the egotistical company behind Mathematica, censored the proof using a court order. Cook apparently had the last laugh, as his proof is now&nbsp;<a href="http://www.complex-systems.com/Archive/hierarchy/abstract.cgi?vol=15&amp;iss=1&amp;art=01" style="margin: 0px; padding: 0px; color: rgb(0, 94, 172); cursor: pointer; text-decoration: none;">available online</a>. &nbsp;What kind of idiotic company uses court orders to censor the publication of a purely mathematical theorem?</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		<strong style="margin: 0px; padding: 0px;">Source</strong>: Thanks to&nbsp;<a href="http://jakoblog.de/about/" style="margin: 0px; padding: 0px; color: rgb(0, 94, 172); cursor: pointer; text-decoration: none;">Jakob Vo&szlig;</a>&nbsp;for the pointer.</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		Tianyi Cui:由于 Rule 110 （一种网格自动机）是图灵完全的，而HTML+CSS可以实现出来Rule 110，所以它也是图灵完全的。不过这并不具备任何实践上的价值，就像perl regex还是图灵完全的呢，但并没有人用它去做匹配文本以外的事情。</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-以上是引用与翻译部分&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		&nbsp;</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		这也是很有趣的一件事&mdash;&mdash;现在我的问题转化成为了，为什么人们不把HTML与CSS做成一个如C、Java之类的，大家可以用来做各种事情的编程语言呢？</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		首先，ajax只不过是那么拖动几下东西，按几下按钮，当年让我们激动了半天的东西，从任何一个角度看其实只不过是一种GUI在网络程序上的应用罢了。</p>
+	<p style="margin: 0px 0px 0.8em;">
+		第二，很多由服务端进行的查询操作，本来就应该放在客户端（浏览器）上进行。</p>
+	<p style="margin: 0px 0px 0.8em;">
+		因此越来越使我疑惑的就是&mdash;&mdash;为什么我们不直接改造HTML成为一种强大易用的解释型语言（如Python），让浏览器作为interpreter直接把一个个网页变为程序？仅仅是因为解释型语言效率低下？但是效率应该并没有低下到让人无法接受的地步吧？何况javascript的广泛运用体现浏览器作为一个解释器的能力是可以做到很不错的。</p>
+	<p style="margin: 0px 0px 0.8em;">
+		&nbsp;</p>
+	<p style="margin: 0px 0px 0.8em;">
+		附：Rule 110 on HTML5+CSS3</p>
+	<p style="margin: 0px 0px 0.8em; padding: 0px;">
+		<a href="http://elilies.com/rule110-full.html" style="margin: 0px; padding: 0px; color: rgb(0, 94, 172); cursor: pointer; text-decoration: none;" target="_blank">http://elilies.com/rule110-full.html</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/03/08/blog-style-is-a-mess/">文章编排风格真是失败</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-08T00:00:00+08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/03/08/blog-style-is-a-mess/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div style="line-height: 2.5;">
+<p>
+	<big>从博客上线到现在，也已经发布了五篇博文，对于我这种懒人算是出奇的勤奋了，希望能继续保持下去，毕竟整理记忆也到了这种年龄应该开始做的事情了。</p>
+<p>
+	<big>我也认为<a href="http://blog.csdn.net/pongba/archive/2009/02/10/3874528.aspx">书写是为了更好的思考</a>。</big></p>
+<p>
+	<big>&nbsp;但是怎么看这些文章都不得不承认，虽然我审美能力还行（？），但是设计规划能力实在是不能入眼，若是有大框架的东西改改还可，一遇没框架的东西，就无法令人满意。</big></p>
+<p>
+	<big>其中最重要的一点就是行文风格，<a href="http://localhost-8080.com/2011/01/how-to-keep-readers-attention/">这一篇文章</a>讲了不少博客的写作方法，然而实践起来确实是困难重重且容易顾此失彼。</big></p>
+<p>
+	<big>不管怎么说，朝着这个方向努力是没错了。也希望有人能提出点意见，您的一点意见，或许是我终生的进步。</big></p>
+</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/03/06/micolog-2/">Micolog之结构分析</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T00:00:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/03/06/micolog-2/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div style="line-height: 1.8;">
+	<h4>
+		<span style="font-weight: normal;"><span style="color: rgb(255, 153, 0);">micolog虽然挺多地方功能不够完善，但基本的结构是很清晰的。由于采取了MTV工作模式，即Model：数据模型；Template：视图模板；View：视图函数的典型工作模式，即：视图函数通过数据模型与数据库交互获取数据，再将数据传输给模板填上&ldquo;空&rdquo;（变量）。要进行各种修改十分简单。</span></span></h4>
+	<h3>
+		根目录</h3>
+	<p>
+		<code><span class="codef">__init__.py</span></code>:告诉python这个文件夹要被使用，于是你可以使用文件夹.文件的方式访问其他文件。</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">base.py</span></code>:最重要有一个类BaseRequestHandler，是最基础的视图函数，其他的视图函数都要继承它；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">blog.py</span></code>:分类各种视图函数<span style="color: rgb(255, 153, 0);">V-Views</span>，以及url处理与转发，类似django的url.py和views.py的综合。</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">filter.py</span></code>:处理数据过滤，增加了mf的模板标签，还负责过滤提交的有害信息；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">micolog_plugin.py</span></code>:封装了Plugins类,其中有tigger_***与register_***一类方法，为各个plugin的功能函数提供比较便捷的外部接口；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">model.py</span></code>:这就是<span style="color: rgb(255, 153, 0);">M-Model</span>，相当于django的models.py，数据库与视图函数的中间层，封装了Comment,Entry,Link等，定义了一个全局变量g_blog表示当前博客，g_blog.tigger_***()与前面的plugin的联系。</p>
+	<h3>
+		/themes&nbsp;</h3>
+	<p>
+		主题文件夹，即<span style="color: rgb(255, 153, 0);">T-Templates</span>，已经很多优秀的wordpress主题被移植，充分说明了django模板系统的强大易用；</p>
+	<p>
+		当前我的主题由translucency修改而来，改变了主色调；</p>
+	<p>
+		安装主题十分方便，将主题文件夹拷贝在此文件夹下（文件夹命名最好为英文+下划线+数字），再在管理界面中选择相应名字的主题即可。</p>
+	<p>
+		一般来说，一个主题下至少有两个文件夹，以默认的default主题为例。</p>
+	<ul>
+		<li>
+			<span style="color: rgb(128, 0, 128);">/</span> 相关js，效果截图，相关css。</li>
+		<li>
+			<span style="color: rgb(128, 0, 128);"><code>/images</code></span> 存储主题的图片素材。</li>
+		<li>
+			<span style="color: rgb(128, 0, 128);"><code>/templates</code></span> 存储.html格式，以django模板语法书写的模板文件。
+			<ol>
+				重要的有如下几个： &nbsp;
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">base.html</span>:整体框架，没有直接用来渲染，其他页面都以{ % extends &quot;base.html&quot;% }（如果你还不明白这一句，你应该学习django的模板语言了）来控制结构。</li>
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">sidebar.html</span>:因为micolog没有采用widgets的模式，所以若是需要在sidebar上添加内容就可以通过在此处添加内容。</li>
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">comments.html</span>:博客相当关键的交互系统&mdash;&mdash;评论与回复，可以加以改进的地方有很多。</li>
+			</ol>
+		</li>
+	</ul>
+	<h3>
+		/plugins</h3>
+	<p>
+		安装插件的地方，一个插件一般是一个文件夹（如<span style="color: rgb(128, 0, 128);"><code>/highsyntax</code></span>)或者是一个.py文件(如<span style="color: rgb(51, 153, 102);"><span><code>googleAnalytics.py</code></span></span>）。</p>
+	<h3>
+		/app</h3>
+	<p>
+		一些内置的功能模块，也可以当成是插件，只不过更偏向后台处理。</p>
+	<p>
+		如<span style="color: rgb(51, 153, 102);"><code>pngcanvas.py</code></span>负责绘图，而<span style="color: rgb(51, 153, 102);"><span><code>safecode.py</code></span></span>则调用<span style="color: rgb(51, 153, 102);"><code>pngcanvas.py</code></span>来绘制验证码。<strong>这两个文件都是很有趣且可以改作别用的，强烈推荐研究一下。</strong></p>
+	<p>
+		&nbsp;</p>
+	<p>
+		micolog的重要文件（博主认为的），大多都列在如上粗浅的介绍了一下。</p>
+	<p>
+		下一篇日志，我将介绍几个我在blog建设过程中的遇到的问题，从简单到稍微麻烦，告诉读者如何以比较尽可能方便的解决他们。</p>
+</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/03/04/micolog-1/">Micolog之从头开始</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-04T00:00:00+08:00" pubdate data-updated="true">Mar 4<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/03/04/micolog-1/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div style="line-height: 1.8;">
+	<h4>
+		<span style="font-weight: normal;"><span style="color: rgb(255, 153, 0);">很多人都希望拥有自己的blog，而可以肯定micolog是当下很棒的选择，此文尽量简明的说明一下如何拥有一个Micolog。</span></span></h4>
+	<h4>
+		什么是Micolog</h4>
+	<blockquote>
+		<p>
+			<a href="http://baike.baidu.com/view/4460910.htm">Micolog</a>一款追求自由、开放、简约的GAE免费开源的博客程序。它使用<a href="http://baike.baidu.com/view/21087.htm" style="text-decoration: underline; color: rgb(19, 110, 194);" target="_blank">Python</a>编写，可以很方便的部署在GAE（Google app engine）上面。目前，Micolog已经更新到0.74版本！</p>
+	</blockquote>
+	<h4>
+		为什么使用Micolog</h4>
+	<p>
+		Micolog系统由<a href="http://xuming.net/">xuming</a>开发完成，仍然在更新开发中，是一款轻量级的个人blog系统，然而麻雀虽小五脏俱全，各种基本的功能几乎已经可以和wordpress媲美了，它还有一些出类拔萃的特性：</p>
+	<div style="padding: 10px;">
+		&nbsp;</div>
+</div>
+<div style="padding: 10px;">
+	&nbsp;</div>
+<div style="padding: 10px;">
+	&nbsp;</div>
+<ul>
+	<li>
+		可以体验建设一个<strong>比较完整的网站</strong>，相对于直接申请一个只是用来写文章的blog可以学到很多很多。</li>
+</ul>
+<h4>
+	开工！</h4>
+<p>
+	首先，我们知道GAE（Google App Engine）是博客运行的基本环境。所以我们先来注册一个gae账户，并且安装Google App Engine SDK for python使得博客系统可以在本地测试并上传。</p>
+<div style="padding: 10px;">
+	<ol>
+		<li>
+			注册：在<a href="http://appengine.google.com">GAE</a>主页上登入gmail账户开通gae，需要短信验证，国家选择<span style="color: rgb(0, 0, 255);">Other（Not Listed）</span>，在手机号码前加上+86即可。</li>
+		<li>
+			在GAE中创建一个application，输入<span style="color: rgb(0, 0, 255);">Application Identifier</span>（以下简称APPID）和应用名，直接获得一个APPID.appspot.com的域名。</li>
+		<li>
+			下载安装<a href="http://www.python.org/getit/" target="_blank">python2.7</a>和<a href="http://code.google.com/intl/zh-CN/appengine/downloads.html#Google_App_Engine_SDK_for_Python" target="_blank">Google App Engine SDK for python</a>以及<a href="http://micolog.googlecode.com/files/micolog0.74.zip">micolog程序</a>。</li>
+		<li>
+			在windows下运行GAE Launcher是很方便的程序，在（File）-&gt;（Add Existing Application &#8230;)添加上micolog文件夹，即把micolog加入GAE Launcher的列表中。稍等片刻，就可以在http://localhost:8080进行micolog的本机测试了。linux下要使用终端通过SDK中的<span style="color: rgb(0, 112, 0); font-family: monospace; font-size: 12px; line-height: 15px; white-space: pre;">dev_appserver.py micolog/</span>进行本机测试。</li>
+		<li>
+			在上传blog程序之前，先更改micolog下的<span style="color: rgb(0, 112, 0); font-family: monospace; line-height: 16px;">app.yaml</span>文件中的<span style="color: rgb(0, 112, 0); font-family: monospace; font-size: 12px; line-height: 15px; white-space: pre;">application: mlog</span>一行，把<span style="color: rgb(0, 112, 0); font-family: monospace; font-size: 12px; line-height: 15px; white-space: pre;">mlog</span>改为你申请的APPID。设置后APPID之后，windows用户在GAE Launcher中点击deploy即可上传程序。linux中则使用SDK中的<span style="color: rgb(0, 112, 0); font-family: monospace; font-size: 12px; line-height: 15px; white-space: pre;">appcfg.py update helloworld/</span>上传。</li>
+		<li>
+			静待一段时间，等的micolog的数据库结构生成完全（相关情报可以在GAE网站中看到），就可以开始使用了！用APPID.appspot.com的网址访问吧。</li>
+	</ol>
+</div>
+<ul>
+	<li>
+		<span style="color: rgb(184, 113, 184);"><span style="color: rgb(51, 153, 102);">注：如果这里的5.6.步让你感到迷惑的话，不妨看看Google的</span><a href="http://code.google.com/intl/zh-CN/appengine/docs/python/gettingstarted/">入门教程</a><span style="color: rgb(51, 153, 102);">。</span></span></li>
+</ul>
+<h4>
+	还需要学些什么？</h4>
+<p>
+	如果你真的希望学好用好这个系统，就必须深入到代码，否则这个blog<strong>仍然不是属于你自己的</strong>。你或许还应该：</p>
+<div style="padding: 10px;">
+	<ul>
+		<li>
+			学习Python。Python是一种简单易学的脚本解释型语言。Micolog的核心结构是用Python写成的（就是那十个文件）。官方的<a href="http://book.douban.com/subject/3142908/">《Python Tutorial》</a>是绝佳的入门读物，而《Dive into Python》是一本不错的进阶教材。</li>
+		<li>
+			了解<a href="http://www.djangoproject.com/">Django</a>模板系统的语法。Micolog所有的主题模板都使用了<a href="http://docs.djangoproject.com/en/1.2/topics/templates/">Django的模板语法</a>，了解 与 { % tag % } 的意义是进行美化的基础。</li>
+		<li>
+			翻翻<a href="http://code.google.com/intl/zh-CN/appengine/docs/python/gettingstarted/">GAE的入门教程</a>。虽然说改改Micolog不用什么GAE的知识，光是看看变量名就可以懂一大半，但了解一下工作原理怎么说都是必要的。</li>
+	</ul>
+</div>
+<p>
+	入门的内容已经介绍完了，一步一步按照说明，一个Blog已经建设好，基本的写文章的功能已经可以满足了。</p>
+<p>
+	下一篇日志，我将把Micolog的几个重要部分一一分析一下，如果你已经准备好了以上一切，自己尝试探索了一些东西，下面的内容你一定会感兴趣的。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/02/27/back-to-yali/">情系母校——书签</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-27T00:00:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/02/27/back-to-yali/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>突然想起这个寒假干的最靠谱的时期是做了这么一些东西发给学妹们，于是发在这儿。</p>
+<p>背景色调使用的是母校代表色Yali蓝。</p>
+<p>应该来说总体效果还算满意，但是分辨率不够高是个硬伤。这种精致的东西分辨率应该在120px/inch以上为好。</p>
+<p><a href="ftp://squareh:useftp@162.105.99.103/psd.7z">pku站内：psd包下载地址</a></p>
+<div class="imgbox">
+<h4>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;以下为书签（点击看大图）&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</h4>
+<p><img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRjZswEM/百年纪念讲堂副本.png" alt="" width="100" />&nbsp;<img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRirwwEM/静园副本.png" alt="" width="100" />&nbsp;<img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRjJ4gEM/未名湖畔好读书副本.png" alt="" width="100" /></p>
+<p><img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRix6gEM/未名湖是个海洋副本.png" alt="" width="100" />&nbsp;<img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRjh2gEM/图书馆副本.png" alt="" width="100" /></p>
+<p>银杏系列：</p>
+<p><img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRjaswEM/三十一楼银杏路-春副本.png" alt="" height="100" />&nbsp;<img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRiSywEM/银杏叶副本.png" alt="" height="100" />&nbsp;<img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRjCuwEM/三十一楼银杏路-秋副本.png" alt="" height="100" /></p>
+<p>湖光塔影系列：</p>
+<p><img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRjBuwEM/湖光塔影-春副本.png" alt="" height="100" />&nbsp;<img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRj50gEM/%E6%B9%96%E5%85%89%E5%A1%94%E5%BD%B1-%E5%A4%8F%E5%89%AF%E6%9C%AC.png" alt="" height="100" />&nbsp;<img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRiqwwEM/%E6%B9%96%E5%85%89%E5%A1%94%E5%BD%B1-%E7%A7%8B%E5%89%AF%E6%9C%AC.png" alt="" height="100" />&nbsp;<img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRipwwEM/湖光塔影-冬副本.png" alt="" height="100" />&nbsp;<img src="/media/agdoeGhzaXRlcg0LEgVNZWRpYRiRywEM/湖光塔影-黄昏副本.png" alt="" height="100" /></p>
+<p>&nbsp;</p>
+</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/">Newer &rarr;</a>
+    
+  </div>
+</div>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - HXH -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>
+    And <a href="http://pages.github.org">Github:Pages</a> </span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sqrh';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

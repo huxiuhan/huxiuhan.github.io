@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>书评：工具、概念 - Hu Xiuhan</title>
+  <meta name="author" content="HXH">
+
+  
+  <meta name="description" content="最近在看两本书：《松本行弘的程序世界》和《元编程Ruby》(metaprogramming ruby)，收获不少。 Ruby是一门很优秀的语言，它的社区也十分有活力，其中的成员(如Matz)和代表公司(37 signals, github, twitter)总是充满了一种真正geek的童趣， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://huxiuhan.github.io/blog/2012/05/31/shu-ping-gong-ju-gai-nian">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Hu Xiuhan" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/jquery.transform2d.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=Enriqueta:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Anaheim:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Inconsolata:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Share+Tech:regular,bold" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Share+Tech:regular,bold" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23758695-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1>
+    <a href="/">
+      SQRH
+    </a>
+  </h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<!--
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:huxiuhan.github.io" />
+    <input class="search" type="text" name="q" results="0"/>
+  </fieldset>
+</form>
+  
+-->
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about/">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">书评：工具、概念</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-31T02:07:00+08:00" pubdate data-updated="true">May 31<span>st</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近在看两本书：《松本行弘的程序世界》和《元编程Ruby》(metaprogramming ruby)，收获不少。</p>
+
+<p>Ruby是一门很优秀的语言，它的社区也十分有活力，其中的成员(如Matz)和代表公司(37 signals, github, twitter)总是充满了一种真正geek的童趣，而不是伪极客们的自认清高与冷淡。这种情绪总是能够激发人投入真正有意义的事情——比如帮助其他人。这种活力在很多其他社区是很难看到的，或许和其小众性有关，但更多的我相信和这种语言秉承的信念也是密不可分的。</p>
+
+<p>工具这种东西从铸造出来的那一天起，就注入了工匠的灵魂。Matz（松本行弘的英文名）在创造出这个家伙的时候，就始终抱着“编程语言应该是让程序员们觉得快乐的东西”的信念。如果你在业余时间一点写代码的欲望都没有，或许未必是你不喜欢编程，可能是工具太不称手的缘故，正如鞋子不适就不想走路一样。再来，他也认为，当前的技术人员太多的看重了机器而忽略人，这种本末倒置的方式很让人头疼，奇怪的是，很多人为这种以机器为本的思想而自豪。苹果在业界较早的认识到了这点的荒谬，把用户的地位提升了，而程序员们的地位始终在搬砖上徘徊。但是Mac OSX内置了对Ruby的原生支持，或许是出于对其思想的赞赏吧。</p>
+
+<p>谈谈工具的地位。使用工具或许不能让人变得更加高贵，但至少是一个进步的表现，原始人在第一次学会用石头工具的时候一定是内心由衷的赞同这句话的。工具的发展总体来说又不过是两个方向：更强大或者更好用。这两个方向都是进步，没有人敢说其中一个方向是没有意义的。奇怪的是，使用工具在当今社会有些时候反而会被人非议，尤其是“更好用”的工具——你又在投机取巧了？以至于人们一定要求给出工具更加强大的理由，“更好用”似乎不被当成工具被接受的理由。我感觉这个逻辑是奇怪的，站在原始人的角度，第一个将石刀装上手柄的家伙一定会嚷嚷着说太低估他的贡献了。</p>
+
+<p>更加奇怪的是，会不会使用更多或者更好的工具，居然被很多人认为是与人的水平无关的。他们执着于所谓人本身的能力。但是问题是，人本身的能力到底是什么？没人会说懂一门外语不是人本身的能力，大部分的人也都承认语言就是交流的工具，那么显然在这个问题上人们是承认会用工具即能力的；会用搜索引擎获取信息，在我看来是很大的一门学问，必须是一种能力，但是在这个问题上，回答就不那么确定了：尤其是这种能力可能有副作用——把自己的实打实的知识变成了索引。</p>
+
+<p>在编程语言上，这一问题更加明显：学校课堂用c/c++/java这种单线的互相直接继承的语言作为所有的基础，尚且情有可原，毕竟教学条件有限；但是无论是大多数学生还是老师，看到其他的语言都只是冷淡的态度，这就未免有些让人感觉失望。语言是对思想的表达，不同的范式中充满了智慧，居然却有人说过“学习什么语言无关紧要”，而说这句话的很多人根本就不去接触其他类型的语言，仅仅走完其c/c++/java/c#的路就认为天下大同，这未免也太不自量力了。</p>
+
+<p>再谈谈概念，这里主要指范式(paradigm)。个人很多时候也存着一种“很多夸夸其谈的概念，本来都是些理所应当的事情”的想法，然而不管是这个学期的某个课程还是最近的看的书，都给人了不同的感受。其实一个好的概念的关键作用是在意识中定下一个钉子标记。很多时候很多概念理所应当，但是我们没有那个概念的坐标时，要么是“总感觉就是那个东西，却不好说”，要么是“总感觉有那么个东西，却说不出”。更让人困惑的是，有些东西说出来大家都觉得理所应当，若没有人给它起个名字，在明明有必要考虑这个东西时人们都想不起来有这回事。这时候，如果概念出现并且被人理解接受，之后让人每次想到问题是都不会漏掉这个东西，发明这个概念的人可就是功德无量了。</p>
+
+<p>总是有那么些概念不仅名字难懂而且感觉毫无意义，当然也有可能是它就是渣或者时代的眼泪，但是一开始就这么藐视，那就是自己的错误了。</p>
+
+<hr />
+
+<p>一些浅见，就当书籍推荐好了。《松本行弘的程序世界》并不完全是ruby，其中有不少有意思的东西（编码、语言历史、设计模式），而且很浅显易懂，当故事书看也不错。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">HXH</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-31T02:07:00+08:00" pubdate data-updated="true">May 31<span>st</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/08/11/first-trial-ios-core-data/" title="Previous Post: 初试iOS Core Data">&laquo; 初试iOS Core Data</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/06/22/great-beard/" title="Next Post: [译]程序语言成功的终极秘诀？壮观的胡子">[译]程序语言成功的终极秘诀？壮观的胡子 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - HXH -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>
+    And <a href="http://pages.github.org">Github:Pages</a> </span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sqrh';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxiuhan.github.io/blog/2012/05/31/shu-ping-gong-ju-gai-nian/';
+        var disqus_url = 'http://huxiuhan.github.io/blog/2012/05/31/shu-ping-gong-ju-gai-nian/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

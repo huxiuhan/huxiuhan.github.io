@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Micolog之结构分析 - Hu Xiuhan</title>
+  <meta name="author" content="HXH">
+
+  
+  <meta name="description" content="micolog虽然挺多地方功能不够完善，但基本的结构是很清晰的。由于采取了MTV工作模式，即Model：数据模型；Template：视图模板；View：视图函数的典型工作模式，即：视图函数通过数据模型与数据库交互获取数据，再将数据传输给模板填上&ldquo;空&rdquo;（变量）。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://huxiuhan.github.io/blog/2011/03/06/micolog-2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Hu Xiuhan" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/jquery.transform2d.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=Enriqueta:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Anaheim:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Inconsolata:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Share+Tech:regular,bold" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Share+Tech:regular,bold" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23758695-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1>
+    <a href="/">
+      SQRH
+    </a>
+  </h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<!--
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:huxiuhan.github.io" />
+    <input class="search" type="text" name="q" results="0"/>
+  </fieldset>
+</form>
+  
+-->
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about/">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Micolog之结构分析</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T00:00:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div style="line-height: 1.8;">
+	<h4>
+		<span style="font-weight: normal;"><span style="color: rgb(255, 153, 0);">micolog虽然挺多地方功能不够完善，但基本的结构是很清晰的。由于采取了MTV工作模式，即Model：数据模型；Template：视图模板；View：视图函数的典型工作模式，即：视图函数通过数据模型与数据库交互获取数据，再将数据传输给模板填上&ldquo;空&rdquo;（变量）。要进行各种修改十分简单。</span></span></h4>
+	<h3>
+		根目录</h3>
+	<p>
+		<code><span class="codef">__init__.py</span></code>:告诉python这个文件夹要被使用，于是你可以使用文件夹.文件的方式访问其他文件。</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">base.py</span></code>:最重要有一个类BaseRequestHandler，是最基础的视图函数，其他的视图函数都要继承它；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">blog.py</span></code>:分类各种视图函数<span style="color: rgb(255, 153, 0);">V-Views</span>，以及url处理与转发，类似django的url.py和views.py的综合。</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">filter.py</span></code>:处理数据过滤，增加了mf的模板标签，还负责过滤提交的有害信息；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">micolog_plugin.py</span></code>:封装了Plugins类,其中有tigger_***与register_***一类方法，为各个plugin的功能函数提供比较便捷的外部接口；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">model.py</span></code>:这就是<span style="color: rgb(255, 153, 0);">M-Model</span>，相当于django的models.py，数据库与视图函数的中间层，封装了Comment,Entry,Link等，定义了一个全局变量g_blog表示当前博客，g_blog.tigger_***()与前面的plugin的联系。</p>
+	<h3>
+		/themes&nbsp;</h3>
+	<p>
+		主题文件夹，即<span style="color: rgb(255, 153, 0);">T-Templates</span>，已经很多优秀的wordpress主题被移植，充分说明了django模板系统的强大易用；</p>
+	<p>
+		当前我的主题由translucency修改而来，改变了主色调；</p>
+	<p>
+		安装主题十分方便，将主题文件夹拷贝在此文件夹下（文件夹命名最好为英文+下划线+数字），再在管理界面中选择相应名字的主题即可。</p>
+	<p>
+		一般来说，一个主题下至少有两个文件夹，以默认的default主题为例。</p>
+	<ul>
+		<li>
+			<span style="color: rgb(128, 0, 128);">/</span> 相关js，效果截图，相关css。</li>
+		<li>
+			<span style="color: rgb(128, 0, 128);"><code>/images</code></span> 存储主题的图片素材。</li>
+		<li>
+			<span style="color: rgb(128, 0, 128);"><code>/templates</code></span> 存储.html格式，以django模板语法书写的模板文件。
+			<ol>
+				重要的有如下几个： &nbsp;
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">base.html</span>:整体框架，没有直接用来渲染，其他页面都以{ % extends &quot;base.html&quot;% }（如果你还不明白这一句，你应该学习django的模板语言了）来控制结构。</li>
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">sidebar.html</span>:因为micolog没有采用widgets的模式，所以若是需要在sidebar上添加内容就可以通过在此处添加内容。</li>
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">comments.html</span>:博客相当关键的交互系统&mdash;&mdash;评论与回复，可以加以改进的地方有很多。</li>
+			</ol>
+		</li>
+	</ul>
+	<h3>
+		/plugins</h3>
+	<p>
+		安装插件的地方，一个插件一般是一个文件夹（如<span style="color: rgb(128, 0, 128);"><code>/highsyntax</code></span>)或者是一个.py文件(如<span style="color: rgb(51, 153, 102);"><span><code>googleAnalytics.py</code></span></span>）。</p>
+	<h3>
+		/app</h3>
+	<p>
+		一些内置的功能模块，也可以当成是插件，只不过更偏向后台处理。</p>
+	<p>
+		如<span style="color: rgb(51, 153, 102);"><code>pngcanvas.py</code></span>负责绘图，而<span style="color: rgb(51, 153, 102);"><span><code>safecode.py</code></span></span>则调用<span style="color: rgb(51, 153, 102);"><code>pngcanvas.py</code></span>来绘制验证码。<strong>这两个文件都是很有趣且可以改作别用的，强烈推荐研究一下。</strong></p>
+	<p>
+		&nbsp;</p>
+	<p>
+		micolog的重要文件（博主认为的），大多都列在如上粗浅的介绍了一下。</p>
+	<p>
+		下一篇日志，我将介绍几个我在blog建设过程中的遇到的问题，从简单到稍微麻烦，告诉读者如何以比较尽可能方便的解决他们。</p>
+</div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">HXH</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T00:00:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/03/04/micolog-1/" title="Previous Post: Micolog之从头开始">&laquo; Micolog之从头开始</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/03/08/blog-style-is-a-mess/" title="Next Post: 文章编排风格真是失败">文章编排风格真是失败 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - HXH -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>
+    And <a href="http://pages.github.org">Github:Pages</a> </span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sqrh';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
