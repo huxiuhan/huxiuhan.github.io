@@ -4,7 +4,7 @@
   <title><![CDATA[Hu Xiuhan]]></title>
   <link href="http://huxiuhan.github.io/atom.xml" rel="self"/>
   <link href="http://huxiuhan.github.io/"/>
-  <updated>2013-10-14T11:06:09+08:00</updated>
+  <updated>2015-02-09T17:26:50-05:00</updated>
   <id>http://huxiuhan.github.io/</id>
   <author>
     <name><![CDATA[HXH]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Google glass: 整体图像扫描镜显示系统]]></title>
     <link href="http://huxiuhan.github.io/blog/2013/02/27/google-glass-whole-image/"/>
-    <updated>2013-02-27T13:12:00+08:00</updated>
+    <updated>2013-02-27T13:12:00-05:00</updated>
     <id>http://huxiuhan.github.io/blog/2013/02/27/google-glass-whole-image</id>
     <content type="html"><![CDATA[<p>(Whole image scanning mirror display system)</p>
 
@@ -71,7 +71,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[[译]程序语言成功的终极秘诀？壮观的胡子]]></title>
     <link href="http://huxiuhan.github.io/blog/2012/06/22/great-beard/"/>
-    <updated>2012-06-22T12:57:00+08:00</updated>
+    <updated>2012-06-22T12:57:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2012/06/22/great-beard</id>
     <content type="html"><![CDATA[<p>为什么有些程序语言可以统治世界，而另一些却沉溺于默默无闻?</p>
 
@@ -126,7 +126,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[书评：工具、概念]]></title>
     <link href="http://huxiuhan.github.io/blog/2012/05/31/shu-ping-gong-ju-gai-nian/"/>
-    <updated>2012-05-31T02:07:00+08:00</updated>
+    <updated>2012-05-31T02:07:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2012/05/31/shu-ping-gong-ju-gai-nian</id>
     <content type="html"><![CDATA[<p>最近在看两本书：《松本行弘的程序世界》和《元编程Ruby》(metaprogramming ruby)，收获不少。</p>
 
@@ -153,7 +153,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[初试iOS Core Data]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/08/11/first-trial-ios-core-data/"/>
-    <updated>2011-08-11T00:00:00+08:00</updated>
+    <updated>2011-08-11T00:00:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/08/11/first-trial-ios-core-data</id>
     <content type="html"><![CDATA[<p>用户体验就一个字：赞！</p>
 <p>编写了一个可以一键开启、停止记录加速度与陀螺仪数据的程序MotionRecorder，效果不错。以后还要加入数据集的概念和打标记的功能</p>
@@ -170,7 +170,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[rails开发手记]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/07/22/rails-notes/"/>
-    <updated>2011-07-22T00:00:00+08:00</updated>
+    <updated>2011-07-22T00:00:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/07/22/rails-notes</id>
     <content type="html"><![CDATA[<ol>
 <li>如何安装多个版本的ruby&amp;rails？<br /> 使用rvm(Ruby Version Manager)，需要注意的是，最好把不同版本的rails安装在不同的ruby下，否则很有可能在反复的版本切换与gem install之后出现怎么调也调不好的错误。rvm设置默认的ruby版本的命令是rvm 1.x.x &#8211;default</li>
@@ -187,7 +187,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[记信科夏令营与大一生活]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/07/20/eecs-summer-camp-and-freshman/"/>
-    <updated>2011-07-20T00:00:00+08:00</updated>
+    <updated>2011-07-20T00:00:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/07/20/eecs-summer-camp-and-freshman</id>
     <content type="html"><![CDATA[<p><span style="color: #333333; font-family: Tahoma, Verdana, STHeiTi, simsun, sans-serif; line-height: 21px;">
 <p style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.8em; margin-left: 0px; padding: 0px;">累，脚都累到麻木了，还是很想把一些事情记下来，作为一份沉淀的记忆，作为一份大一生活不算总结的总结。</p>
@@ -206,7 +206,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[New Domain Announcement]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/06/03/new-domain-announcement/"/>
-    <updated>2011-06-03T00:00:00+08:00</updated>
+    <updated>2011-06-03T00:00:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/06/03/new-domain-announcement</id>
     <content type="html"><![CDATA[<h2><span style="color: #ff9900;">启用新域名: www.sqrh.net</span></h2>
 <p><span style="color: #ff9900;">过了考试周，就是更新的好时机了~</span></p>
@@ -217,7 +217,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[为什么要反对gfw？——写在方校长被袭击之后]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/05/20/why-hate-gfw/"/>
-    <updated>2011-05-20T00:00:00+08:00</updated>
+    <updated>2011-05-20T00:00:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/05/20/why-hate-gfw</id>
     <content type="html"><![CDATA[<p>&nbsp;</p>
 <p style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.8em; margin-left: 0px;">方校长只是一个替罪羊。确实，我们大家都知道方校长只是一个替罪羊，没有他，GFW也会有王校长、李校长、张校长去完成伟大的新时代长城。然而这并不能成为完全开脱责任的理由。事实上，不管他愿不愿意，既然他曾经领导开发了GFW，承担任何骂名乃至于袭击都是可以理解的。</p>
@@ -234,7 +234,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[计算机应用设计比赛作品释出]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/05/01/earth-game/"/>
-    <updated>2011-05-01T00:00:00+08:00</updated>
+    <updated>2011-05-01T00:00:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/05/01/earth-game</id>
     <content type="html"><![CDATA[<h4><span style="font-size: large;">今年计算机应用设计比赛花了10天打酱油的成果，成功进入了答辩，还是比较满足的。以下是说明文件。</span></h4>
 <p><span style="font-size: large;">源代码的下载地址位于：</span><a href="http://www.yinghuochong.com/disk/share_file.aspx?u=841259">http://www.yinghuochong.com/disk/share_file.aspx?u=841259</a></p>
@@ -347,7 +347,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[pku网站系统信息安全意识堪忧]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/04/30/pku-website-safety-is-in-danger/"/>
-    <updated>2011-04-30T00:00:00+08:00</updated>
+    <updated>2011-04-30T00:00:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/04/30/pku-website-safety-is-in-danger</id>
     <content type="html"><![CDATA[<h3>看到这样一篇文章：</h3>
 <h3><span>中国以网络进攻掩盖漏洞百出的网络防御系统&nbsp;</span></h3>
@@ -363,7 +363,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[lz78：压缩文件实现源码（c++）]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/04/16/lz78/"/>
-    <updated>2011-04-16T00:00:00+08:00</updated>
+    <updated>2011-04-16T00:00:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/04/16/lz78</id>
     <content type="html"><![CDATA[<p>一个encoder函数负责压缩，decoder负责解压。</p>
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -807,7 +807,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[你不知道的我]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/04/15/sth-you-may-not-know-about-me/"/>
-    <updated>2011-04-15T00:00:00+08:00</updated>
+    <updated>2011-04-15T00:00:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/04/15/sth-you-may-not-know-about-me</id>
     <content type="html"><![CDATA[<p><span style="color: #333333; font-family: Tahoma, Verdana, STHeiTi, simsun, sans-serif; line-height: 21px;"> </span></p>
 <p style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.8em; margin-left: 0px; padding: 0px;">在大学这个环境，人真的很难互相了解，既然不能寄希望于别人主动了解你，只好自己出来发言。如果你希望了解我，这篇显摆文大概可以帮到你。</p>
@@ -837,7 +837,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[mactype：windows下的字体渲染软件]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/04/08/mactype%3Afont-rendering-in-windows/"/>
-    <updated>2011-04-08T00:00:00+08:00</updated>
+    <updated>2011-04-08T00:00:00-04:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/04/08/mactype:font-rendering-in-windows</id>
     <content type="html"><![CDATA[<p>
 	用过ubuntu或者mac的童鞋们回到windows&mdash;&mdash;即使是已经大有改观的win7&mdash;&mdash;下面最大的感受之一，就是文字显示实在是很难看，仿佛满是锯齿。</p>
@@ -861,7 +861,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[breaking-news：html5+css3是图灵完备的]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/03/09/breaking-news%3Ahtm5-css3-is-turing-complete/"/>
-    <updated>2011-03-09T00:00:00+08:00</updated>
+    <updated>2011-03-09T00:00:00-05:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/03/09/breaking-news:htm5-css3-is-turing-complete</id>
     <content type="html"><![CDATA[	<p>
 		昨天还在人人上发了一条状态说为什么HTML不做成图灵完备编程语言，今天就看见了这样一条<a href="http://lemire.me/blog/archives/2011/03/08/breaking-news-htmlcss-is-turing-complete/" style="margin: 0px; padding: 0px; color: rgb(0, 94, 172); cursor: pointer; text-decoration: none;" target="_blank">新闻</a>：</p>
@@ -903,7 +903,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[文章编排风格真是失败]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/03/08/blog-style-is-a-mess/"/>
-    <updated>2011-03-08T00:00:00+08:00</updated>
+    <updated>2011-03-08T00:00:00-05:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/03/08/blog-style-is-a-mess</id>
     <content type="html"><![CDATA[<div style="line-height: 2.5;">
 <p>
@@ -923,7 +923,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[Micolog之结构分析]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/03/06/micolog-2/"/>
-    <updated>2011-03-06T00:00:00+08:00</updated>
+    <updated>2011-03-06T00:00:00-05:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/03/06/micolog-2</id>
     <content type="html"><![CDATA[<div style="line-height: 1.8;">
 	<h4>
@@ -993,7 +993,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[Micolog之从头开始]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/03/04/micolog-1/"/>
-    <updated>2011-03-04T00:00:00+08:00</updated>
+    <updated>2011-03-04T00:00:00-05:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/03/04/micolog-1</id>
     <content type="html"><![CDATA[<div style="line-height: 1.8;">
 	<h4>
@@ -1067,7 +1067,7 @@ http://www.seobythesea.com/2013/01/project-glass-patents/
   <entry>
     <title type="html"><![CDATA[情系母校——书签]]></title>
     <link href="http://huxiuhan.github.io/blog/2011/02/27/back-to-yali/"/>
-    <updated>2011-02-27T00:00:00+08:00</updated>
+    <updated>2011-02-27T00:00:00-05:00</updated>
     <id>http://huxiuhan.github.io/blog/2011/02/27/back-to-yali</id>
     <content type="html"><![CDATA[<p>突然想起这个寒假干的最靠谱的时期是做了这么一些东西发给学妹们，于是发在这儿。</p>
 <p>背景色调使用的是母校代表色Yali蓝。</p>
