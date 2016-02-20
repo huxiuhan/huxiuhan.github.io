@@ -1,0 +1,22 @@
+--- 
+layout: post
+title: "rails开发手记"
+tags: 
+- Rails
+- 9org
+- programming language
+status: publish
+type: post
+published: true
+meta: {}
+
+---
+<ol>
+<li>如何安装多个版本的ruby&amp;rails？<br /> 使用rvm(Ruby Version Manager)，需要注意的是，最好把不同版本的rails安装在不同的ruby下，否则很有可能在反复的版本切换与gem install之后出现怎么调也调不好的错误。rvm设置默认的ruby版本的命令是rvm 1.x.x --default</li>
+<li>使用git clone，发现无论时seed还是rails console调用model如User时报错无法进行？<br /> 使用cancan进行权限管理时，数据库一定要先配置好role表，否则会发现只要与之相关的model都无法使用且报错根本无法理解。</li>
+<li>使用PaperClip进行图片管理，不知名错误？<br /> 请先检查是否安装了ImageMagick。</li>
+<li>使用PaperClip，上传后没有反应？<br /> 注意是否在form_for处加了:html =&gt; { :multipart =&gt; true}</li>
+<li>bundle install sqlite3后，仍然报错sqlite3_native LoadError？<br /> 可能是没有编译安装，切换到sqlite3的gem处，make，install一下试试。</li>
+<li>我要移植安装gems的机器上没有网络怎么办？<br /> 可以使用bundle package将gems与项目捆绑打包，之后到目标机器上使用bundle install --local</li>
+</ol>
+<p>再说说使用rails的感受吧，rails发展的时间比django要长，各种插件与应用都相当丰富与成熟了，而且各种用法灵活多变，可定制性很强大，也确实可以被认为是当前最agile的架构。然而它的灵活性确实是有严重代价的，第一是上手难度相对要大，几个人一起学还不错；第二是错误百出，有些错误几乎没法解决；第三是最重要也最伤人的，由于它版本更新太快，各种插件跟进的速度又不一，版本控制的问题实在是让人伤透了脑筋，即使用了rvm与bundler这等神器，但错误却不会因此而消失，所以rails版本切换一定要慎之又慎。。</p>

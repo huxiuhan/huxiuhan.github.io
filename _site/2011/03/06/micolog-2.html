@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Micolog之结构分析</title>
+  <meta name="description" content="			micolog虽然挺多地方功能不够完善，但基本的结构是很清晰的。由于采取了MTV工作模式，即Model：数据模型；Template：视图模板；View：视图函数的典型工作模式，即：视图函数通过数据模型与数据库交互获取数据，再将数据传输给模板填上&ldquo;空&rdquo;（变量）。要进行各种修改十分简单。...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://huxiuhan.com/2011/03/06/micolog-2.html">
+  <link rel="alternate" type="application/rss+xml" title="Hu Xiuhan" href="http://huxiuhan.com/feed.xml">
+
+  <link href="/favicon.png" rel="icon">
+
+<link type="text/css" rel="stylesheet" href="/stylesheets/featherlight.css">
+<script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/jquery-2.0.3.min.js"%3E%3C/script%3E'))</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-73991797-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script src="/javascripts/featherlight.js"></script>
+
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=Enriqueta:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Share+Tech:regular,bold" rel="stylesheet" type="text/css">
+
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h1 class="hero" id="hero-1" hint="胡修涵">
+      <a href="/">
+      <span class="hb">[</span>
+      <span class="sheng">H</span><span class="yun">u</span>
+      <span class="sheng">X</span><span class="yun">iu</span><span class="sheng">h</span><span class="yun">an</span>
+      <span class="hb">]</span>
+       </a>
+    </h1>
+    <p class="hero hide" id="hero-2">
+      <span>H</span>
+      <span class="times">X</span>
+      <span>H</span>
+    </p>
+    <p class="hero hide padding" id="hero-3">
+      SQR<span class="hb3">(</span><span class="hint3"><abbr>H</abbr></span><span class="hb3">)</span>
+    </p>
+    <ul class="nav">
+      <li><a href="https://github.com/huxiuhan" title="Github"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span></a></li>
+      <li><a href="https://www.linkedin.com/in/xiuhanhu" title="LinkedIn"><span class="icon icon--linkedin"><?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg enable-background="new 4 4 51 51" height="56.693px" id="Layer_1" version="1.1" viewBox="4 4 50 50" width="56.693px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M30.071,27.101v-0.077c-0.016,0.026-0.033,0.052-0.05,0.077H30.071z"/><path d="M49.265,4.667H7.145c-2.016,0-3.651,1.596-3.651,3.563v42.613c0,1.966,1.635,3.562,3.651,3.562h42.12   c2.019,0,3.654-1.597,3.654-3.562V8.23C52.919,6.262,51.283,4.667,49.265,4.667z M18.475,46.304h-7.465V23.845h7.465V46.304z    M14.743,20.777h-0.05c-2.504,0-4.124-1.725-4.124-3.88c0-2.203,1.67-3.88,4.223-3.88c2.554,0,4.125,1.677,4.175,3.88   C18.967,19.052,17.345,20.777,14.743,20.777z M45.394,46.304h-7.465V34.286c0-3.018-1.08-5.078-3.781-5.078   c-2.062,0-3.29,1.389-3.831,2.731c-0.197,0.479-0.245,1.149-0.245,1.821v12.543h-7.465c0,0,0.098-20.354,0-22.459h7.465v3.179   c0.992-1.53,2.766-3.709,6.729-3.709c4.911,0,8.594,3.211,8.594,10.11V46.304z"/></g></svg></span></a></li>
+      <li><a href="/assets/resume.pdf" title="Resume"><span class="icon icon--resume"><?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 957.599 957.6" style="enable-background:new 0 0 957.599 957.6;" xml:space="preserve">
+<g>
+	<path d="M817.9,108.4h-28v687.901c0,45.699-37.2,82.898-82.899,82.898H423.3H197.7v25.5c0,29.201,23.7,52.9,52.9,52.9h283.6H817.8   c29.2,0,52.899-23.699,52.899-52.9V161.3C870.7,132.1,847.1,108.4,817.9,108.4z" fill="#cbf5ba"/>
+	<path d="M423.3,849.199h283.6c29.2,0,52.9-23.699,52.9-52.898V108.4V52.9c0-29.2-23.7-52.9-52.9-52.9H423.3H329v17.5   c0.199,1.8,0.3,3.7,0.3,5.6v115.3V168c0,41.1-33.4,74.5-74.5,74.5h-29.6H109.9c-1.5,0-3.1-0.1-4.6-0.2H86.9v554.001   c0,29.199,23.7,52.898,52.9,52.898h58H423.3L423.3,849.199z M434,669.4H249.1c-13.8,0-25-11.201-25-25c0-13.801,11.2-25,25-25h185   c13.8,0,25,11.199,25,25C459.1,658.199,447.8,669.4,434,669.4z M619,541.801H249.1c-13.8,0-25-11.201-25-25c0-13.801,11.2-25,25-25   H619c13.8,0,25,11.199,25,25C644,530.6,632.8,541.801,619,541.801z M249.1,356.3H619c13.8,0,25,11.2,25,25c0,13.8-11.2,25-25,25   H249.1c-13.8,0-25-11.2-25-25C224.1,367.5,235.3,356.3,249.1,356.3z" fill="#cbf5ba"/>
+	<path d="M109.9,212.5h144.9c0.1,0,0.3,0,0.4,0c24.2-0.2,43.8-19.8,44-44c0-0.1,0-0.3,0-0.4v-145c0-13.4-11-22.3-22.399-22.3   c-5.5,0-11,2-15.6,6.6L94.1,174.5C80.1,188.5,90,212.5,109.9,212.5z" fill="#cbf5ba"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+</span></a></li>
+      <li><a href="https://www.facebook.com/xiuhan.hu" title="Facebook"><span class="icon icon--facebook"><?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 90 90" style="enable-background:new 0 0 90 90;" xml:space="preserve">
+<g>
+	<path id="Facebook__x28_alt_x29_" d="M90,15.001C90,7.119,82.884,0,75,0H15C7.116,0,0,7.119,0,15.001v59.998   C0,82.881,7.116,90,15.001,90H45V56H34V41h11v-5.844C45,25.077,52.568,16,61.875,16H74v15H61.875C60.548,31,59,32.611,59,35.024V41   h15v15H59v34h16c7.884,0,15-7.119,15-15.001V15.001z" fill="#000000"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+</span></a></li>
+      <li><a href="mailto:huxiuhan@gmail.com" title="Email"><span class="icon icon--email"><?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 31.806 31.806" style="enable-background:new 0 0 31.806 31.806;" xml:space="preserve">
+<g>
+	<g>
+		<path d="M1.286,12.465c-0.685,0.263-1.171,0.879-1.268,1.606c-0.096,0.728,0.213,1.449,0.806,1.88l6.492,4.724L30.374,2.534    L9.985,22.621l8.875,6.458c0.564,0.41,1.293,0.533,1.964,0.33c0.67-0.204,1.204-0.713,1.444-1.368l9.494-25.986    c0.096-0.264,0.028-0.559-0.172-0.756c-0.199-0.197-0.494-0.259-0.758-0.158L1.286,12.465z" fill="#cbf5ba"/>
+		<path d="M5.774,22.246l0.055,0.301l1.26,6.889c0.094,0.512,0.436,0.941,0.912,1.148c0.476,0.206,1.025,0.162,1.461-0.119    c1.755-1.132,4.047-2.634,3.985-2.722L5.774,22.246z" fill="#cbf5ba"/>
+	</g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+</span></a></li>
+
+    </ul>
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Micolog之结构分析</h1>
+    <p class="post-meta"><time datetime="2011-03-06T00:00:00+08:00" itemprop="datePublished">Mar 6, 2011</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <div style="line-height: 1.8;">
+	<h4>
+		<span style="font-weight: normal;"><span style="color: rgb(255, 153, 0);">micolog虽然挺多地方功能不够完善，但基本的结构是很清晰的。由于采取了MTV工作模式，即Model：数据模型；Template：视图模板；View：视图函数的典型工作模式，即：视图函数通过数据模型与数据库交互获取数据，再将数据传输给模板填上&ldquo;空&rdquo;（变量）。要进行各种修改十分简单。</span></span></h4>
+	<h3>
+		根目录</h3>
+	<p>
+		<code><span class="codef">__init__.py</span></code>:告诉python这个文件夹要被使用，于是你可以使用文件夹.文件的方式访问其他文件。</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">base.py</span></code>:最重要有一个类BaseRequestHandler，是最基础的视图函数，其他的视图函数都要继承它；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">blog.py</span></code>:分类各种视图函数<span style="color: rgb(255, 153, 0);">V-Views</span>，以及url处理与转发，类似django的url.py和views.py的综合。</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">filter.py</span></code>:处理数据过滤，增加了mf的模板标签，还负责过滤提交的有害信息；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">micolog_plugin.py</span></code>:封装了Plugins类,其中有tigger_***与register_***一类方法，为各个plugin的功能函数提供比较便捷的外部接口；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">model.py</span></code>:这就是<span style="color: rgb(255, 153, 0);">M-Model</span>，相当于django的models.py，数据库与视图函数的中间层，封装了Comment,Entry,Link等，定义了一个全局变量g_blog表示当前博客，g_blog.tigger_***()与前面的plugin的联系。</p>
+	<h3>
+		/themes&nbsp;</h3>
+	<p>
+		主题文件夹，即<span style="color: rgb(255, 153, 0);">T-Templates</span>，已经很多优秀的wordpress主题被移植，充分说明了django模板系统的强大易用；</p>
+	<p>
+		当前我的主题由translucency修改而来，改变了主色调；</p>
+	<p>
+		安装主题十分方便，将主题文件夹拷贝在此文件夹下（文件夹命名最好为英文+下划线+数字），再在管理界面中选择相应名字的主题即可。</p>
+	<p>
+		一般来说，一个主题下至少有两个文件夹，以默认的default主题为例。</p>
+	<ul>
+		<li>
+			<span style="color: rgb(128, 0, 128);">/</span> 相关js，效果截图，相关css。</li>
+		<li>
+			<span style="color: rgb(128, 0, 128);"><code>/images</code></span> 存储主题的图片素材。</li>
+		<li>
+			<span style="color: rgb(128, 0, 128);"><code>/templates</code></span> 存储.html格式，以django模板语法书写的模板文件。
+			<ol>
+				重要的有如下几个： &nbsp;
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">base.html</span>:整体框架，没有直接用来渲染，其他页面都以{ % extends &quot;base.html&quot;% }（如果你还不明白这一句，你应该学习django的模板语言了）来控制结构。</li>
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">sidebar.html</span>:因为micolog没有采用widgets的模式，所以若是需要在sidebar上添加内容就可以通过在此处添加内容。</li>
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">comments.html</span>:博客相当关键的交互系统&mdash;&mdash;评论与回复，可以加以改进的地方有很多。</li>
+			</ol>
+		</li>
+	</ul>
+	<h3>
+		/plugins</h3>
+	<p>
+		安装插件的地方，一个插件一般是一个文件夹（如<span style="color: rgb(128, 0, 128);"><code>/highsyntax</code></span>)或者是一个.py文件(如<span style="color: rgb(51, 153, 102);"><span><code>googleAnalytics.py</code></span></span>）。</p>
+	<h3>
+		/app</h3>
+	<p>
+		一些内置的功能模块，也可以当成是插件，只不过更偏向后台处理。</p>
+	<p>
+		如<span style="color: rgb(51, 153, 102);"><code>pngcanvas.py</code></span>负责绘图，而<span style="color: rgb(51, 153, 102);"><span><code>safecode.py</code></span></span>则调用<span style="color: rgb(51, 153, 102);"><code>pngcanvas.py</code></span>来绘制验证码。<strong>这两个文件都是很有趣且可以改作别用的，强烈推荐研究一下。</strong></p>
+	<p>
+		&nbsp;</p>
+	<p>
+		micolog的重要文件（博主认为的），大多都列在如上粗浅的介绍了一下。</p>
+	<p>
+		下一篇日志，我将介绍几个我在blog建设过程中的遇到的问题，从简单到稍微麻烦，告诉读者如何以比较尽可能方便的解决他们。</p>
+</div>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <a href="/"><h2 class="footer-heading">Hu Xiuhan © 2016</h2></a>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

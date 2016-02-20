@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://huxiuhan.github.io/sitemap.xml 

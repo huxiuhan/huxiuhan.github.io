@@ -1,0 +1,75 @@
+--- 
+layout: post
+title: "Micolog之结构分析"
+tags: 
+- Internet
+- micolog
+- blog
+status: publish
+type: post
+published: true
+meta: {}
+
+---
+<div style="line-height: 1.8;">
+	<h4>
+		<span style="font-weight: normal;"><span style="color: rgb(255, 153, 0);">micolog虽然挺多地方功能不够完善，但基本的结构是很清晰的。由于采取了MTV工作模式，即Model：数据模型；Template：视图模板；View：视图函数的典型工作模式，即：视图函数通过数据模型与数据库交互获取数据，再将数据传输给模板填上&ldquo;空&rdquo;（变量）。要进行各种修改十分简单。</span></span></h4>
+	<h3>
+		根目录</h3>
+	<p>
+		<code><span class="codef">__init__.py</span></code>:告诉python这个文件夹要被使用，于是你可以使用文件夹.文件的方式访问其他文件。</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">base.py</span></code>:最重要有一个类BaseRequestHandler，是最基础的视图函数，其他的视图函数都要继承它；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">blog.py</span></code>:分类各种视图函数<span style="color: rgb(255, 153, 0);">V-Views</span>，以及url处理与转发，类似django的url.py和views.py的综合。</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">filter.py</span></code>:处理数据过滤，增加了mf的模板标签，还负责过滤提交的有害信息；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">micolog_plugin.py</span></code>:封装了Plugins类,其中有tigger_***与register_***一类方法，为各个plugin的功能函数提供比较便捷的外部接口；</p>
+	<p>
+		<code><span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">model.py</span></code>:这就是<span style="color: rgb(255, 153, 0);">M-Model</span>，相当于django的models.py，数据库与视图函数的中间层，封装了Comment,Entry,Link等，定义了一个全局变量g_blog表示当前博客，g_blog.tigger_***()与前面的plugin的联系。</p>
+	<h3>
+		/themes&nbsp;</h3>
+	<p>
+		主题文件夹，即<span style="color: rgb(255, 153, 0);">T-Templates</span>，已经很多优秀的wordpress主题被移植，充分说明了django模板系统的强大易用；</p>
+	<p>
+		当前我的主题由translucency修改而来，改变了主色调；</p>
+	<p>
+		安装主题十分方便，将主题文件夹拷贝在此文件夹下（文件夹命名最好为英文+下划线+数字），再在管理界面中选择相应名字的主题即可。</p>
+	<p>
+		一般来说，一个主题下至少有两个文件夹，以默认的default主题为例。</p>
+	<ul>
+		<li>
+			<span style="color: rgb(128, 0, 128);">/</span> 相关js，效果截图，相关css。</li>
+		<li>
+			<span style="color: rgb(128, 0, 128);"><code>/images</code></span> 存储主题的图片素材。</li>
+		<li>
+			<span style="color: rgb(128, 0, 128);"><code>/templates</code></span> 存储.html格式，以django模板语法书写的模板文件。
+			<ol>
+				重要的有如下几个： &nbsp;
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">base.html</span>:整体框架，没有直接用来渲染，其他页面都以{ % extends &quot;base.html&quot;% }（如果你还不明白这一句，你应该学习django的模板语言了）来控制结构。</li>
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">sidebar.html</span>:因为micolog没有采用widgets的模式，所以若是需要在sidebar上添加内容就可以通过在此处添加内容。</li>
+				<li>
+					<span style="color: rgb(51, 153, 102); font-family: Georgia,'Times New Roman',Times,serif;">comments.html</span>:博客相当关键的交互系统&mdash;&mdash;评论与回复，可以加以改进的地方有很多。</li>
+			</ol>
+		</li>
+	</ul>
+	<h3>
+		/plugins</h3>
+	<p>
+		安装插件的地方，一个插件一般是一个文件夹（如<span style="color: rgb(128, 0, 128);"><code>/highsyntax</code></span>)或者是一个.py文件(如<span style="color: rgb(51, 153, 102);"><span><code>googleAnalytics.py</code></span></span>）。</p>
+	<h3>
+		/app</h3>
+	<p>
+		一些内置的功能模块，也可以当成是插件，只不过更偏向后台处理。</p>
+	<p>
+		如<span style="color: rgb(51, 153, 102);"><code>pngcanvas.py</code></span>负责绘图，而<span style="color: rgb(51, 153, 102);"><span><code>safecode.py</code></span></span>则调用<span style="color: rgb(51, 153, 102);"><code>pngcanvas.py</code></span>来绘制验证码。<strong>这两个文件都是很有趣且可以改作别用的，强烈推荐研究一下。</strong></p>
+	<p>
+		&nbsp;</p>
+	<p>
+		micolog的重要文件（博主认为的），大多都列在如上粗浅的介绍了一下。</p>
+	<p>
+		下一篇日志，我将介绍几个我在blog建设过程中的遇到的问题，从简单到稍微麻烦，告诉读者如何以比较尽可能方便的解决他们。</p>
+</div>

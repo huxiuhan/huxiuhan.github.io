@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>This is a demo for asthma inhaler project</title>
+    <link href='/stylesheets/bootstrap.min.css' rel='stylesheet'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Caption' rel='stylesheet'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet'>
+    <link href='/stylesheets/asthma.css' rel='stylesheet'>
+    <link href='/stylesheets/video-js.min.css' rel='stylesheet'>
+    <script src='/javascripts/jquery-2.0.3.min.js'></script>
+    <script src='/javascripts/bootstrap.min.js'></script>
+    <script src='/javascripts/popcorn.min.js'></script>
+    <script src='/javascripts/video.js'></script>
+    <script src='/javascripts/timeline.js'></script>
+    <script src='/javascripts/asthma.js'></script>
+  </head>
+  <body>
+    <a class='arrow-up' href='#home'>
+      <span class='glyphicon glyphicon-arrow-up'></span>
+    </a>
+    <div class='lin' id='home'>
+      <div class='container'>
+        <div class='row'>
+          <div class='col-md-8'>
+            <video controls='' id='vision'>
+              <source src='/video/vision.webm'></source>
+            </video>
+            <div id='vision_timeline'></div>
+          </div>
+          <div class='col-md-4'>
+            <h1 id='headline'>System Overview</h1>
+            <div class='well' id='timeline'></div>
+          </div>
+          <div class='clearfix'></div>
+          <div class='illustration'>
+            <div class='illu col-md-2'>
+              <div class='box green'></div>
+              <span>shake</span>
+            </div>
+            <div class='illu col-md-2'>
+              <div class='box blue'></div>
+              <span>exhale</span>
+            </div>
+            <div class='illu col-md-3'>
+              <div class='box purple'></div>
+              <span>inhale&puff</span>
+            </div>
+            <div class='illu col-md-3'>
+              <div class='box white'></div>
+              <span>hold breath</span>
+            </div>
+            <div class='illu col-md-2'>
+              <div class='box red'></div>
+              <span>error</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='hidden-footnote hidden'>
+        <div class='s0'>
+          <ul class='list-group'>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#shake'>Shake the asthma inhaler</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#exhale'>Breathe out throughly</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#inhale-puff'>Inhale and press the button down</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#hold-breath'>Hold your breath for 10 secs</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#exhale'>Breathe out again</a>
+            </li>
+          </ul>
+        </div>
+        <div class='s1'>
+          <ul class='list-group'>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#shake'>Shake the asthma inhaler</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#exhale'>Breathe out throughly</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#inhale-puff'>Inhale and press the button down</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#hold-breath'>Hold your breath for 10 secs</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#exhale'>Breathe out again</a>
+            </li>
+          </ul>
+        </div>
+        <div class='s2'>
+          <ul class='list-group'>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#shake'>Shake the asthma inhaler</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#exhale'>Breathe out throughly</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#inhale-puff'>Inhale and press the button down</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#hold-breath'>Hold your breath for 10 secs</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#exhale'>Breathe out again</a>
+            </li>
+          </ul>
+        </div>
+        <div class='s3'>
+          <ul class='list-group'>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#shake'>Shake the asthma inhaler</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#exhale'>Breathe out throughly</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#inhale-puff'>Inhale and press the button down</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#hold-breath'>Hold your breath for 10 secs</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#exhale'>Breathe out again</a>
+            </li>
+          </ul>
+        </div>
+        <div class='s4'>
+          <ul class='list-group'>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#shake'>Shake the asthma inhaler</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#exhale'>Breathe out throughly</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#inhale-puff'>Inhale and press the button down</a>
+            </li>
+            <li class='list-group-item remove'>
+              <span class='glyphicon glyphicon-remove'></span>
+              <a href='#hold-breath'>Hold your breath for 10 secs</a>
+            </li>
+            <li class='list-group-item unchecked'>
+              <span class='glyphicon glyphicon-unchecked'></span>
+              <a href='#exhale'>Breathe out again</a>
+            </li>
+          </ul>
+          <div class='bs-callout bs-callout-danger'>
+            <h3>Error:</h3>
+            <p>You did NOT hold your breath for enough time (1.5s left).</p>
+          </div>
+        </div>
+        <div class='s5'>
+          <ul class='list-group'>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#shake'>Shake the asthma inhaler</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#exhale'>Breathe out throughly</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#inhale-puff'>Inhale and press the button down</a>
+            </li>
+            <li class='list-group-item remove'>
+              <span class='glyphicon glyphicon-remove'></span>
+              <a href='#hold-breath'>Hold your breath for 10 secs</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#exhale'>Breathe out again</a>
+            </li>
+          </ul>
+          <div class='bs-callout bs-callout-danger'>
+            <h3>Error:</h3>
+            <p>You did NOT hold your breath for enough time (1.5s left).</p>
+          </div>
+        </div>
+        <div class='s6'>
+          <ul class='list-group'>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#shake'>Shake the asthma inhaler</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#exhale'>Breathe out throughly</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#inhale-puff'>Inhale and press the button down</a>
+            </li>
+            <li class='list-group-item remove'>
+              <span class='glyphicon glyphicon-remove'></span>
+              <a href='#hold-breath'>Hold your breath for 10 secs</a>
+            </li>
+            <li class='list-group-item check'>
+              <span class='glyphicon glyphicon-check'></span>
+              <a href='#exhale'>Breathe out again</a>
+            </li>
+          </ul>
+          <div class='bs-callout bs-callout-danger'>
+            <h3>Error:</h3>
+            <p>You did NOT hold your breath for enough time (1.5s left).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
