@@ -4,14 +4,14 @@ $serif-stack: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "URW Palla
 $sans-stack: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 $mono-stack: "IBM Plex Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
 
-$paper: #f6f0e3;
-$paper-dark: #ece3d2;
-$ink: #201a17;
-$ink-soft: rgba(32, 26, 23, 0.76);
-$line: rgba(32, 26, 23, 0.16);
-$line-strong: rgba(32, 26, 23, 0.32);
-$accent: #8f3d24;
-$shadow: rgba(16, 12, 10, 0.08);
+$paper: #edf1f7;
+$paper-dark: #dfe6f2;
+$ink: #1f2938;
+$ink-soft: rgba(31, 41, 56, 0.82);
+$line: rgba(31, 41, 56, 0.16);
+$line-strong: rgba(31, 41, 56, 0.32);
+$accent: #5b719e;
+$shadow: rgba(16, 20, 30, 0.08);
 $content-width: 1180px;
 $on-tablet: 960px;
 $on-palm: 640px;
@@ -55,7 +55,7 @@ body {
   font: 400 18px/1.6 $serif-stack;
   background:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.32), transparent 38%),
-    linear-gradient(180deg, #f8f3e7 0%, #f3ecdf 100%);
+    linear-gradient(180deg, #f5f8fc 0%, #e8eef7 100%);
   background-attachment: fixed;
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
@@ -77,24 +77,24 @@ img {
 
 a {
   color: inherit;
-  text-decoration-color: rgba(143, 61, 36, 0.48);
+  text-decoration-color: rgba(91, 113, 158, 0.48);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.16em;
   transition: color 0.2s ease, text-decoration-color 0.2s ease, transform 0.2s ease;
 
   &:hover {
     color: $accent;
-    text-decoration-color: rgba(143, 61, 36, 0.92);
+    text-decoration-color: rgba(91, 113, 158, 0.92);
   }
 }
 
 strong {
-  font-weight: 700;
-  color: $ink;
+  font-weight: 600;
+  color: #172335;
 }
 
 .inline-accent {
-  color: $accent;
+  color: #48638f;
 }
 
 code,
@@ -104,7 +104,7 @@ pre {
 
 code {
   padding: 0.08em 0.38em;
-  background: rgba(32, 26, 23, 0.06);
+  background: rgba(31, 41, 56, 0.06);
   border-radius: 3px;
 }
 
@@ -129,9 +129,9 @@ pre {
   padding: 58px 0 54px;
   text-align: center;
   background:
-    linear-gradient(rgba(21, 16, 13, 0.38), rgba(21, 16, 13, 0.18)),
+    linear-gradient(rgba(20, 28, 44, 0.42), rgba(20, 28, 44, 0.18)),
     url("/images/3-1.jpg") center center / cover;
-  color: #f5f1ea;
+  color: #f3f6fb;
 }
 
 .site-header::after {
@@ -160,7 +160,7 @@ pre {
 .note-kicker,
 .work-era,
 .work-meta {
-  color: rgba(32, 26, 23, 0.62);
+  color: rgba(31, 41, 56, 0.62);
 }
 
 .hero-mark {
@@ -174,7 +174,7 @@ pre {
 .hero-mark a {
   position: relative;
   display: inline-block;
-  color: #f5f1ea;
+  color: #f3f6fb;
   text-decoration: none;
 }
 
@@ -208,7 +208,7 @@ pre {
   font: 700 0.8rem/1.4 $mono-stack;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(245, 241, 234, 0.82);
+  color: rgba(243, 246, 251, 0.82);
 }
 
 .nav {
@@ -231,7 +231,7 @@ pre {
   align-items: center;
   min-height: 30px;
   padding: 0 4px;
-  color: #f5f1ea;
+  color: #f3f6fb;
   background: transparent;
   text-decoration: none;
   font: 700 0.8rem/1 $sans-stack;
@@ -239,7 +239,7 @@ pre {
   text-transform: uppercase;
 
   &:hover {
-    color: #fff7ee;
+    color: #ffffff;
     text-decoration: underline;
   }
 }
@@ -250,7 +250,7 @@ pre {
 }
 
 .section + .section {
-  border-top: 1px solid rgba(32, 26, 23, 0.08);
+  border-top: 1px solid rgba(31, 41, 56, 0.08);
 }
 
 .section-grid {
@@ -265,8 +265,9 @@ pre {
 .blog-content h1 {
   margin-top: 6px;
   max-width: 16ch;
-  font: 700 clamp(1.7rem, 3.2vw, 2.4rem) / 1.04 $sans-stack;
-  letter-spacing: -0.03em;
+  font: 600 clamp(1.8rem, 3.2vw, 2.5rem) / 1.08 $serif-stack;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .prose {
@@ -274,7 +275,8 @@ pre {
 }
 
 .prose p {
-  font-size: 1.08rem;
+  font-size: 1.1rem;
+  line-height: 1.72;
   color: $ink-soft;
 }
 
@@ -283,7 +285,7 @@ pre {
 }
 
 .intro-section {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(236, 227, 210, 0.32));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(223, 230, 242, 0.36));
 }
 
 .selected-work-heading {
@@ -316,6 +318,7 @@ pre {
 .work-intro {
   margin-top: 10px;
   max-width: 24ch;
+  line-height: 1.66;
   color: $ink-soft;
 }
 
@@ -331,7 +334,7 @@ pre {
   gap: 22px;
   align-items: start;
   padding: 18px 0 18px 0;
-  border-top: 1px dotted rgba(32, 26, 23, 0.22);
+  border-top: 1px dotted rgba(31, 41, 56, 0.22);
   background: transparent;
   box-shadow: none;
 }
@@ -348,18 +351,19 @@ pre {
 .work-poster img {
   display: block;
   width: 100%;
-  border: 1px solid rgba(32, 26, 23, 0.14);
+  border: 1px solid rgba(31, 41, 56, 0.14);
   background: rgba(255, 255, 255, 0.38);
 }
 
 .work-title {
   margin-top: 8px;
-  font: 700 1.36rem/1.1 $sans-stack;
-  letter-spacing: -0.03em;
+  font: 600 1.34rem/1.14 $sans-stack;
+  letter-spacing: -0.02em;
 }
 
 .work-description,
 .work-thread {
+  line-height: 1.7;
   color: $ink-soft;
 }
 
@@ -368,7 +372,7 @@ pre {
 .work-thread strong,
 .cta-description strong,
 .prose strong {
-  color: $ink;
+  background: linear-gradient(transparent 60%, rgba(91, 113, 158, 0.16) 60%);
 }
 
 .work-description {
@@ -397,7 +401,7 @@ pre {
   gap: 10px;
   min-height: 180px;
   padding: 18px 0 0;
-  border-top: 1px solid rgba(32, 26, 23, 0.16);
+  border-top: 1px solid rgba(31, 41, 56, 0.16);
   background: transparent;
   text-decoration: none;
   box-shadow: none;
@@ -413,6 +417,7 @@ pre {
 }
 
 .cta-description {
+  line-height: 1.68;
   color: $ink-soft;
 }
 
@@ -430,7 +435,7 @@ pre {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  color: rgba(32, 26, 23, 0.6);
+  color: rgba(31, 41, 56, 0.6);
   font-size: 0.96rem;
 }
 
