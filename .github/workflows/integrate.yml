@@ -23,9 +23,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
       - run: export NEXT_TELEMETRY_DISABLED=1
-      - run: rm -rf node_modules/ && rm package-lock.json
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - run: npm run export
         env:
