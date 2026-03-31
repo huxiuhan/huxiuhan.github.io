@@ -5,5 +5,8 @@ export default defineConfig({
   site: 'https://huxiuhan.com',
   output: 'static',
   trailingSlash: 'always',
+  build: {
+    assets: 'assets',
+  },
   integrations: [mdx()],
 });
