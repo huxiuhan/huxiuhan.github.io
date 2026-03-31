@@ -168,21 +168,39 @@ pre {
   font-family: "Share Tech", $sans-stack;
   font-size: clamp(3rem, 8vw, 4.8rem);
   line-height: 1;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 
 .hero-mark a {
+  position: relative;
+  display: inline-block;
   color: #f5f1ea;
   text-decoration: none;
 }
 
-#hero-1:hover .hb {
-  opacity: 1;
-}
-
-#hero-1 .hb {
+.hero-mark a::before,
+.hero-mark a::after {
+  position: absolute;
+  top: 0;
   opacity: 0;
   transition: opacity 0.9s ease-in;
+}
+
+.hero-mark a::before {
+  content: "[";
+  right: 100%;
+  margin-right: 0.08em;
+}
+
+.hero-mark a::after {
+  content: "]";
+  left: 100%;
+  margin-left: 0.08em;
+}
+
+#hero-1:hover a::before,
+#hero-1:hover a::after {
+  opacity: 1;
 }
 
 .hero-tagline {
