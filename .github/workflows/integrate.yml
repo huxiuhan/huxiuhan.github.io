@@ -22,7 +22,7 @@ jobs:
       - name: Install and Build
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
           cache: npm
       - run: export NEXT_TELEMETRY_DISABLED=1
       - run: npm ci
