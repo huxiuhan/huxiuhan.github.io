@@ -1,0 +1,40 @@
+---
+import '../styles/global.scss';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Hu Xiuhan',
+  description = 'Hu Xiuhan is a founder, builder, and systems-minded product person working across stories, tools, creators, and worldbuilding.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="stylesheet" href="/stylesheets/featherlight.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Enriqueta:regular,italic,bold,bolditalic"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Share+Tech:regular,bold"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body>
+    <div class="site-shell">
+      <slot />
+    </div>
+  </body>
+</html>

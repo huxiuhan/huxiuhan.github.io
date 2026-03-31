@@ -11,10 +11,8 @@ $ink-soft: rgba(32, 26, 23, 0.76);
 $line: rgba(32, 26, 23, 0.16);
 $line-strong: rgba(32, 26, 23, 0.32);
 $accent: #8f3d24;
-$accent-soft: rgba(143, 61, 36, 0.12);
 $shadow: rgba(16, 12, 10, 0.08);
 $content-width: 1180px;
-$spacing-unit: 28px;
 $on-tablet: 960px;
 $on-palm: 640px;
 
@@ -195,14 +193,6 @@ pre {
   color: rgba(245, 241, 234, 0.82);
 }
 
-.hero-intro {
-  max-width: 34rem;
-  margin: 14px auto 0;
-  font-size: 1.12rem;
-  line-height: 1.7;
-  color: rgba(245, 241, 234, 0.95);
-}
-
 .nav {
   display: flex;
   justify-content: center;
@@ -252,7 +242,9 @@ pre {
 }
 
 .section-heading h2,
-.selected-work-heading h2 {
+.selected-work-heading h2,
+.not-found h1,
+.blog-content h1 {
   margin-top: 6px;
   max-width: 16ch;
   font: 700 clamp(1.7rem, 3.2vw, 2.4rem) / 1.04 $sans-stack;
@@ -424,9 +416,63 @@ pre {
   font-size: 0.96rem;
 }
 
+.blog-page {
+  padding: 28px 0 64px;
+}
+
 .blog-content {
-  padding-top: 32px;
-  padding-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 50rem);
+  margin: 0 auto;
+}
+
+.blog-content h1 {
+  max-width: 100%;
+  margin-bottom: 16px;
+}
+
+.blog-content p {
+  font-size: calc(1rem + 0.1vw);
+  color: rgba(0, 0, 0, 0.9);
+  margin: 0 0 1vh 0;
+}
+
+.blog-content img {
+  display: block;
+  height: auto;
+  margin: 18px auto;
+}
+
+.blog-content h2,
+.blog-content h3,
+.blog-content h4 {
+  margin: 26px 0 10px;
+  font-family: $sans-stack;
+  line-height: 1.15;
+}
+
+.blog-content hr {
+  margin: 28px 0;
+  border: 0;
+  border-top: 1px solid $line;
+}
+
+.not-found {
+  padding: 72px 0 108px;
+}
+
+.not-found-inner {
+  max-width: 36rem;
+}
+
+.not-found h1 {
+  max-width: 100%;
+}
+
+.not-found p {
+  margin-top: 14px;
+  color: $ink-soft;
 }
 
 blockquote {
@@ -518,12 +564,7 @@ ol {
     justify-self: start;
   }
 
-  .cta-card,
-  .work-card {
-    padding: 18px;
-  }
-
-  .nav {
-    gap: 14px;
+  .blog-page {
+    padding-top: 20px;
   }
 }

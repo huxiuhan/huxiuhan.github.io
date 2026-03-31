@@ -8,9 +8,15 @@
 # testing
 /coverage
 
-# next.js
-/.next/
+# Astro build output
+/dist/
+/.astro/
 /out/
+/.vercel
+
+# next.js leftovers
+/.next/
+/.next.dev-broken-*/
 
 # production
 /build
@@ -27,6 +33,3 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
-# vercel
-.vercel

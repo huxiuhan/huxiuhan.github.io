@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  headerLinks,
+  nextSteps,
+  nowPointsHtml,
+  siteDescription,
+  throughlineHtml,
+  workGroups,
+} from '../data/home';
+
+const externalAttrs = (href: string) =>
+  href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {};
+---
+
+<BaseLayout title="Hu Xiuhan" description={siteDescription}>
+  <header class="site-header">
+    <div class="wrapper">
+      <h1 class="hero-mark" id="hero-1">
+        <a href="/">
+          <span class="hb">[</span>
+          <span class="sheng">H</span>
+          <span class="yun">u</span>&nbsp;
+          <span class="sheng">X</span>
+          <span class="yun">iu</span>
+          <span class="sheng">h</span>
+          <span class="yun">an</span>
+          <span class="hb">]</span>
+        </a>
+      </h1>
+
+      <p class="hero-tagline">Story, systems, tools, worlds.</p>
+
+      <ul class="nav">
+        {
+          headerLinks.map((link) => (
+            <li>
+              <a href={link.href} {...externalAttrs(link.href)}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="section intro-section">
+      <div class="wrapper section-grid">
+        <div class="section-heading">
+          <p class="section-label">Now</p>
+          <h2>Now</h2>
+        </div>
+        <div class="section-body prose">
+          {nowPointsHtml.map((point) => <p set:html={point}></p>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrapper section-grid">
+        <div class="section-heading">
+          <p class="section-label">About</p>
+          <h2>About</h2>
+        </div>
+        <div class="section-body prose">
+          {throughlineHtml.map((paragraph) => <p set:html={paragraph}></p>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section selected-work" id="selected-work">
+      <div class="wrapper">
+        <div class="selected-work-heading">
+          <p class="section-label">Work</p>
+          <h2>Selected work</h2>
+        </div>
+
+        <div class="work-groups">
+          {
+            workGroups.map((group) => (
+              <section class="work-group">
+                <div class="work-group-head">
+                  <p class="work-era">{group.era}</p>
+                  <p class="work-intro" set:html={group.introHtml}></p>
+                </div>
+                <div class="work-list">
+                  {group.items.map((item) => (
+                    <article class="work-card">
+                      <div class="work-poster">
+                        <a href={item.href || item.image} {...externalAttrs(item.href || item.image)}>
+                          <img src={item.image} alt={item.title} />
+                        </a>
+                      </div>
+                      <div class="work-copy">
+                        <p class="work-meta">{item.meta}</p>
+                        <h3 class="work-title">
+                          {item.href ? (
+                            <a href={item.href} {...externalAttrs(item.href)}>
+                              {item.title}
+                            </a>
+                          ) : (
+                            <span>{item.title}</span>
+                          )}
+                        </h3>
+                        <p class="work-description" set:html={item.descriptionHtml}></p>
+                        <p class="work-thread" set:html={item.threadHtml}></p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section next-step" id="next-step">
+      <div class="wrapper">
+        <div class="selected-work-heading">
+          <p class="section-label">Contact</p>
+          <h2>Say hello</h2>
+        </div>
+
+        <div class="cta-grid">
+          {
+            nextSteps.map((item) => (
+              <a class="cta-card" href={item.href}>
+                <p class="cta-title">{item.title}</p>
+                <p class="cta-description">{item.description}</p>
+                <span class="cta-action">{item.action}</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrapper footer-inner">
+      <p>Hu Xiuhan, still building on the internet.</p>
+      <p>&copy; 2026</p>
+    </div>
+  </footer>
+</BaseLayout>
